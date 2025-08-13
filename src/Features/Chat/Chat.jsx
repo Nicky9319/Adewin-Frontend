@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Bot } from 'lucide-react';
+import { Bot, Menu, X } from 'lucide-react';
 import ChatListPane from '../ChatListPane';
 import ChatThread from '../ChatThread';
 
 const Chat = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chats, setChats] = useState([
     {
       id: '1',
@@ -63,6 +64,20 @@ const Chat = () => {
   });
   
   const [isLoading, setIsLoading] = useState(false);
+
+  // Keyboard shortcut for toggling sidebar
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      // Cmd/Ctrl + B to toggle sidebar
+      if ((event.metaKey || event.ctrlKey) && event.key === 'b') {
+        event.preventDefault();
+        setIsSidebarOpen(!isSidebarOpen);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [isSidebarOpen]);
 
   const handleNewChat = () => {
     const newChatId = Date.now().toString();
@@ -169,29 +184,61 @@ const Chat = () => {
 
   return (
     <div className="flex h-screen bg-black overflow-hidden">
-      <ChatListPane
-        chats={chats}
-        selectedChatId={selectedChatId}
-        onChatSelect={setSelectedChatId}
-        onNewChat={handleNewChat}
-        onDeleteChat={handleDeleteChat}
-      />
-      <div className="flex-1 flex flex-col min-h-0">
+      {/* Sidebar Overlay for mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+      
+      {/* Chat List Pane */}
+      <div className={`fixed top-0 left-0 h-full z-30 sidebar-toggle ${
+        isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+      }`} style={{ width: '320px' }}>
+        <ChatListPane
+          chats={chats}
+          selectedChatId={selectedChatId}
+          onChatSelect={setSelectedChatId}
+          onNewChat={handleNewChat}
+          onDeleteChat={handleDeleteChat}
+          isOpen={isSidebarOpen}
+          onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+        />
+      </div>
+      
+      {/* No standalone close button – header toggle handles both open/close */}
+      
+      {/* Main Content */}
+      <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
         {/* Header */}
-        <div className="bg-[#111111] border-b border-[#1C1C1E] px-6 py-4 flex-shrink-0">
+        <div className="bg-[#111111] border-b border-[#1C1C1E] px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-[#007AFF] flex items-center justify-center">
-                <Bot size={16} className="text-white" />
+              {/* Sidebar Toggle Button (always visible on desktop) */}
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="hidden lg:inline-flex p-3 rounded-lg bg-[#1C1C1E] hover:bg-[#2D2D2F] transition-colors border border-[#2D2D2F]"
+                title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
+              >
+                {isSidebarOpen ? (
+                  <X size={20} className="text-[#FFFFFF]" />
+                ) : (
+                  <Menu size={20} className="text-[#FFFFFF]" />
+                )}
+              </button>
+              
+              <div className="w-8 h-8 rounded-full bg-[#1C1C1E] flex items-center justify-center">
+                <Bot size={16} className="text-[#FFFFFF]" />
               </div>
               <div>
-                <h1 className="text-lg font-semibold text-white">AI Assistant</h1>
-                <p className="text-sm text-[#8E8E93]">Powered by advanced AI</p>
+                <h1 className="text-lg font-semibold text-white font-primary heading-line-height">AI Assistant</h1>
+                <p className="text-sm text-[#8E8E93] font-secondary body-line-height">Powered by advanced AI</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-[#00D09C] rounded-full animate-pulse"></div>
-              <span className="text-sm text-[#8E8E93]">Online</span>
+              <div className="w-2 h-2 bg-[#FFFFFF] rounded-full animate-pulse"></div>
+              <span className="text-sm text-[#8E8E93] font-secondary">Online</span>
             </div>
           </div>
         </div>

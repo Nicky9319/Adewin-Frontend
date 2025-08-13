@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -7,6 +8,73 @@
   /* margin: 0; */
   /* padding: 0; */
   box-sizing: border-box;
+}
+
+/* Typography System */
+.font-primary {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-secondary {
+  font-family: 'Nunito Sans', 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Line Heights */
+.heading-line-height {
+  line-height: 1.5;
+}
+
+.body-line-height {
+  line-height: 1.7;
+}
+
+/* Spacing System */
+.spacing-4 {
+  gap: 4px;
+}
+
+.spacing-8 {
+  gap: 8px;
+}
+
+.spacing-16 {
+  gap: 16px;
+}
+
+.spacing-24 {
+  gap: 24px;
+}
+
+/* Sidebar Animation */
+.sidebar-slide {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Sidebar Toggle Animation */
+.sidebar-toggle {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateX(-100%);
+}
+
+.sidebar-open {
+  transform: translateX(0);
+}
+
+.sidebar-closed {
+  transform: translateX(-100%);
+}
+
+/* Sidebar should slide on desktop as well; no overrides needed */
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .sidebar-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+  }
 }
 .custom-dashed {
   border: 1px dashed black;

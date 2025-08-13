@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot } from 'lucide-react';
+import { Send, Bot, Image, Mic, MicOff } from 'lucide-react';
 import Message from './Message';
 
 const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
   const [inputValue, setInputValue] = useState('');
   const [copiedMessageId, setCopiedMessageId] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -39,6 +40,31 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
     console.log('Regenerate message:', messageId);
   };
 
+  const handleImageUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        console.log('Image uploaded:', file.name);
+        // Handle image upload logic here
+      }
+    };
+    input.click();
+  };
+
+  const handleVoiceRecording = () => {
+    setIsRecording(!isRecording);
+    if (!isRecording) {
+      // Start recording logic
+      console.log('Started voice recording');
+    } else {
+      // Stop recording logic
+      console.log('Stopped voice recording');
+    }
+  };
+
   return (
     <div className="flex flex-col h-full bg-black">
       {/* Messages Container */}
@@ -46,14 +72,14 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
         {messages.length === 0 ? (
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#007AFF] to-[#0056CC] flex items-center justify-center shadow-lg">
-                <Bot size={40} className="text-white" />
+              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#1C1C1E] flex items-center justify-center shadow-lg">
+                <Bot size={40} className="text-[#FFFFFF]" />
               </div>
-              <h3 className="text-4xl font-bold text-[#007AFF] mb-4">
+              <h3 className="text-4xl font-bold text-[#FFFFFF] mb-4 font-primary heading-line-height">
                 Adewin
               </h3>
-              <p className="text-[#E5E5E7] text-lg">
-                How can I help you today?
+              <p className="text-[#E5E5E7] text-lg font-secondary body-line-height">
+                Hello, Marvin what type of campaign would you like to run today?
               </p>
             </div>
           </div>
@@ -99,7 +125,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Message AI Assistant... (Press Enter to send, Shift+Enter for new line)"
-              className="w-full p-3 pr-12 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] focus:ring-opacity-20 transition-all duration-200"
+              className="w-full p-3 pr-32 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#FFFFFF] focus:ring-1 focus:ring-[#FFFFFF] focus:ring-opacity-20 transition-all duration-200 font-secondary body-line-height"
               rows="1"
               style={{ minHeight: '44px', maxHeight: '120px' }}
               onKeyDown={(e) => {
@@ -109,18 +135,52 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
                 }
               }}
             />
-            <button
-              type="submit"
-              disabled={!inputValue.trim() || isLoading}
-              className="absolute right-2 bottom-2 p-1.5 rounded-md bg-[#007AFF] hover:bg-[#0056CC] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200"
-            >
-              <Send size={14} className="text-white" />
-            </button>
+            
+            {/* Action Buttons */}
+            <div className="absolute right-2 bottom-2 flex items-center space-x-1">
+              {/* Image Upload Button */}
+              <button
+                type="button"
+                onClick={handleImageUpload}
+                className="p-1.5 rounded-md hover:bg-[#2D2D2F] transition-all duration-200"
+                title="Upload Image"
+              >
+                <Image size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+              </button>
+              
+              {/* Voice Recording Button */}
+              <button
+                type="button"
+                onClick={handleVoiceRecording}
+                className={`p-1.5 rounded-md transition-all duration-200 ${
+                  isRecording 
+                    ? 'bg-[#1C1C1E]' 
+                    : 'hover:bg-[#2D2D2F]'
+                }`}
+                title={isRecording ? "Stop Recording" : "Start Voice Recording"}
+              >
+                {isRecording ? (
+                  <MicOff size={16} className="text-[#FFFFFF]" />
+                ) : (
+                  <Mic size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+                )}
+              </button>
+              
+              {/* Send Button */}
+              <button
+                type="submit"
+                disabled={!inputValue.trim() || isLoading}
+                className="p-1.5 rounded-md bg-[#1C1C1E] hover:bg-[#2D2D2F] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200"
+              >
+                <Send size={16} className="text-[#FFFFFF]" />
+              </button>
+            </div>
           </div>
+          
           <div className="flex items-center justify-end mt-2">
             <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-[#00D09C] rounded-full"></div>
-              <span className="text-xs text-[#8E8E93]">AI Assistant is ready</span>
+              <div className="w-2 h-2 bg-[#FFFFFF] rounded-full"></div>
+              <span className="text-xs text-[#8E8E93] font-secondary">AI Assistant is ready</span>
             </div>
           </div>
         </form>

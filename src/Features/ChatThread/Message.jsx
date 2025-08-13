@@ -58,13 +58,13 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
         {/* Avatar */}
         <div
           className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isUser ? 'bg-[#007AFF]' : 'bg-[#1C1C1E]'
+            isUser ? 'bg-[#1C1C1E]' : 'bg-[#1C1C1E]'
           }`}
         >
           {isUser ? (
-            <User size={16} className="text-white" />
+            <User size={16} className="text-[#FFFFFF]" />
           ) : (
-            <Bot size={16} className="text-[#007AFF]" />
+            <Bot size={16} className="text-[#FFFFFF]" />
           )}
         </div>
 
@@ -72,13 +72,13 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
         <div
           className={`rounded-lg px-4 py-3 ${
             isUser
-              ? 'bg-[#007AFF] text-white'
+              ? 'bg-[#1C1C1E] text-[#FFFFFF]'
               : 'bg-[#111111] text-[#E5E5E7] border border-[#1C1C1E]'
           }`}
         >
-          <div className="prose prose-invert max-w-none">
+          <div className="prose prose-invert max-w-none font-secondary body-line-height">
             {message.content === 'Adewin' ? (
-              <span className="text-[#007AFF] font-medium">{message.content}</span>
+              <span className="text-[#FFFFFF] font-medium font-primary">{message.content}</span>
             ) : (
               formatContent(message.content)
             )}
@@ -93,7 +93,7 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
                 title="Copy message"
               >
                 {isCopied ? (
-                  <Check size={14} className="text-[#00D09C]" />
+                  <Check size={14} className="text-[#FFFFFF]" />
                 ) : (
                   <Copy size={14} className="text-[#8E8E93]" />
                 )}
