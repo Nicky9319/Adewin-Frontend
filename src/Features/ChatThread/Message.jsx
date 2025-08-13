@@ -50,27 +50,27 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-      <div
-        className={`max-w-3xl flex items-start space-x-3 ${
-          isUser ? 'flex-row-reverse space-x-reverse' : ''
-        }`}
-      >
+                  <div
+              className={`max-w-3xl flex items-start space-x-2 lg:space-x-3 ${
+                isUser ? 'flex-row-reverse space-x-reverse' : ''
+              }`}
+            >
         {/* Avatar */}
         <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+          className={`w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
             isUser ? 'bg-[#1C1C1E]' : 'bg-[#1C1C1E]'
           }`}
         >
           {isUser ? (
-            <User size={16} className="text-[#FFFFFF]" />
+            <User size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
           ) : (
-            <Bot size={16} className="text-[#FFFFFF]" />
+            <Bot size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
           )}
         </div>
 
         {/* Message Content */}
         <div
-          className={`rounded-lg px-4 py-3 ${
+          className={`rounded-lg px-3 py-2 lg:px-4 lg:py-3 ${
             isUser
               ? 'bg-[#1C1C1E] text-[#FFFFFF]'
               : 'bg-[#111111] text-[#E5E5E7] border border-[#1C1C1E]'

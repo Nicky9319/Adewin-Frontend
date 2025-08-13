@@ -68,17 +68,17 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
   return (
     <div className="flex flex-col h-full bg-black">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 min-h-0">
+      <div className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-4 lg:space-y-6 min-h-0">
         {messages.length === 0 ? (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#1C1C1E] flex items-center justify-center shadow-lg">
-                <Bot size={40} className="text-[#FFFFFF]" />
+          <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
+            <div className="text-center px-4">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 lg:mb-6 rounded-full bg-[#1C1C1E] flex items-center justify-center shadow-lg">
+                <Bot size={32} className="lg:w-10 lg:h-10 text-[#FFFFFF]" />
               </div>
-              <h3 className="text-4xl font-bold text-[#FFFFFF] mb-4 font-primary heading-line-height">
+              <h3 className="text-3xl lg:text-4xl font-bold text-[#FFFFFF] mb-3 lg:mb-4 font-primary heading-line-height">
                 Adewin
               </h3>
-              <p className="text-[#E5E5E7] text-lg font-secondary body-line-height">
+              <p className="text-[#E5E5E7] text-base lg:text-lg font-secondary body-line-height">
                 Hello, Marvin what type of campaign would you like to run today?
               </p>
             </div>
@@ -117,7 +117,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       </div>
 
       {/* Input Container */}
-      <div className="border-t border-[#1C1C1E] p-4 bg-[#111111] flex-shrink-0">
+      <div className="border-t border-[#1C1C1E] p-3 lg:p-4 bg-[#111111] flex-shrink-0">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
             <textarea
@@ -125,9 +125,9 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Message AI Assistant... (Press Enter to send, Shift+Enter for new line)"
-              className="w-full p-3 pr-32 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#FFFFFF] focus:ring-1 focus:ring-[#FFFFFF] focus:ring-opacity-20 transition-all duration-200 font-secondary body-line-height"
+              className="w-full p-2.5 lg:p-3 pr-28 lg:pr-32 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#FFFFFF] focus:ring-1 focus:ring-[#FFFFFF] focus:ring-opacity-20 transition-all duration-200 font-secondary body-line-height text-sm lg:text-base"
               rows="1"
-              style={{ minHeight: '44px', maxHeight: '120px' }}
+              style={{ minHeight: '40px', maxHeight: '120px' }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -137,22 +137,22 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
             />
             
             {/* Action Buttons */}
-            <div className="absolute right-2 bottom-2 flex items-center space-x-1">
+            <div className="absolute right-1.5 lg:right-2 bottom-1.5 lg:bottom-2 flex items-center space-x-0.5 lg:space-x-1">
               {/* Image Upload Button */}
               <button
                 type="button"
                 onClick={handleImageUpload}
-                className="p-1.5 rounded-md hover:bg-[#2D2D2F] transition-all duration-200"
+                className="p-1 lg:p-1.5 rounded-md hover:bg-[#2D2D2F] transition-all duration-200"
                 title="Upload Image"
               >
-                <Image size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+                <Image size={14} className="lg:w-4 lg:h-4 text-[#8E8E93] hover:text-[#FFFFFF]" />
               </button>
               
               {/* Voice Recording Button */}
               <button
                 type="button"
                 onClick={handleVoiceRecording}
-                className={`p-1.5 rounded-md transition-all duration-200 ${
+                className={`p-1 lg:p-1.5 rounded-md transition-all duration-200 ${
                   isRecording 
                     ? 'bg-[#1C1C1E]' 
                     : 'hover:bg-[#2D2D2F]'
@@ -160,9 +160,9 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
                 title={isRecording ? "Stop Recording" : "Start Voice Recording"}
               >
                 {isRecording ? (
-                  <MicOff size={16} className="text-[#FFFFFF]" />
+                  <MicOff size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
                 ) : (
-                  <Mic size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+                  <Mic size={14} className="lg:w-4 lg:h-4 text-[#8E8E93] hover:text-[#FFFFFF]" />
                 )}
               </button>
               
@@ -170,16 +170,16 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isLoading}
-                className="p-1.5 rounded-md bg-[#1C1C1E] hover:bg-[#2D2D2F] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200"
+                className="p-1 lg:p-1.5 rounded-md bg-[#1C1C1E] hover:bg-[#2D2D2F] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200"
               >
-                <Send size={16} className="text-[#FFFFFF]" />
+                <Send size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
               </button>
             </div>
           </div>
           
-          <div className="flex items-center justify-end mt-2">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-[#FFFFFF] rounded-full"></div>
+          <div className="flex items-center justify-end mt-1.5 lg:mt-2">
+            <div className="flex items-center space-x-1.5 lg:space-x-2">
+              <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-[#FFFFFF] rounded-full"></div>
               <span className="text-xs text-[#8E8E93] font-secondary">AI Assistant is ready</span>
             </div>
           </div>
