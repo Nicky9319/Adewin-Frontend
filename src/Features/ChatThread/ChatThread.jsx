@@ -45,25 +45,16 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-6 min-h-0">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-center max-w-md">
+            <div className="text-center">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-[#007AFF] to-[#0056CC] flex items-center justify-center shadow-lg">
                 <Bot size={40} className="text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                Welcome to AI Chat!
+              <h3 className="text-4xl font-bold text-[#007AFF] mb-4">
+                Adewin
               </h3>
-              <p className="text-[#E5E5E7] text-lg mb-6 leading-relaxed">
-                I'm your AI assistant, ready to help you with any questions, coding problems, or creative tasks.
+              <p className="text-[#E5E5E7] text-lg">
+                How can I help you today?
               </p>
-              <div className="bg-[#111111] rounded-lg p-4 border border-[#1C1C1E]">
-                <p className="text-[#8E8E93] text-sm mb-3">Try asking me about:</p>
-                <ul className="text-[#E5E5E7] text-sm space-y-2">
-                  <li>• "Help me write a React component"</li>
-                  <li>• "Explain how to use Tailwind CSS"</li>
-                  <li>• "Debug this JavaScript code"</li>
-                  <li>• "Create a simple API endpoint"</li>
-                </ul>
-              </div>
             </div>
           </div>
         ) : (
@@ -100,17 +91,17 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       </div>
 
       {/* Input Container */}
-      <div className="border-t border-[#1C1C1E] p-6 bg-[#111111] flex-shrink-0">
+      <div className="border-t border-[#1C1C1E] p-4 bg-[#111111] flex-shrink-0">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
             <textarea
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Message AI Assistant..."
-              className="w-full p-4 pr-12 rounded-xl bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF] focus:ring-opacity-20 transition-all duration-200 shadow-lg"
+              placeholder="Message AI Assistant... (Press Enter to send, Shift+Enter for new line)"
+              className="w-full p-3 pr-12 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] focus:ring-opacity-20 transition-all duration-200"
               rows="1"
-              style={{ minHeight: '56px', maxHeight: '200px' }}
+              style={{ minHeight: '44px', maxHeight: '120px' }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -121,15 +112,12 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
             <button
               type="submit"
               disabled={!inputValue.trim() || isLoading}
-              className="absolute right-3 bottom-3 p-2 rounded-lg bg-[#007AFF] hover:bg-[#0056CC] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="absolute right-2 bottom-2 p-1.5 rounded-md bg-[#007AFF] hover:bg-[#0056CC] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-200"
             >
-              <Send size={16} className="text-white" />
+              <Send size={14} className="text-white" />
             </button>
           </div>
-          <div className="flex items-center justify-between mt-3">
-            <p className="text-xs text-[#8E8E93]">
-              Press Enter to send, Shift+Enter for new line
-            </p>
+          <div className="flex items-center justify-end mt-2">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-[#00D09C] rounded-full"></div>
               <span className="text-xs text-[#8E8E93]">AI Assistant is ready</span>

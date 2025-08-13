@@ -77,7 +77,11 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
           }`}
         >
           <div className="prose prose-invert max-w-none">
-            {formatContent(message.content)}
+            {message.content === 'Adewin' ? (
+              <span className="text-[#007AFF] font-medium">{message.content}</span>
+            ) : (
+              formatContent(message.content)
+            )}
           </div>
           
           {/* Message Actions */}

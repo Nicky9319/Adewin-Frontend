@@ -1,0 +1,9 @@
+rimary Font: -Apple SF Pro (or Inter if SF Pro isn’t available for web) -Use for headings, titles, buttons, and key UI elements. -Weight: Bold (700) for main titles, Semi-Bold (600) for subheadings. 
+Secondary Font: -Circular (or Nunito Sans / Poppins as web-safe alternatives) -Use for paragraph text, descriptions, captions. -Weight: Regular (400) for body text, Medium (500) for emphasis. 
+Spacing & Sizing: -Headings: 1.5× line height -Body text: 1.6–1.8× line height -Keep a consistent 8px or 4px spacing grid for layout.
+
+Minimalistic, plenty of white space, high contrast. 
+Stick to 2–3 max type sizes per page for hierarchy. 
+Accessibility: Ensure text contrast is high, font sizes are readable, and all buttons are 
+easily tappable. 
+Clarity: All text, icons, and visuals should be easy to understand without explanation.

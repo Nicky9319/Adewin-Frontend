@@ -16,19 +16,36 @@ const Chat = () => {
       title: 'Code Review',
       lastMessage: 'Let me review your JavaScript code...',
       timestamp: new Date(Date.now() - 3600000).toISOString()
+    },
+    {
+      id: '3',
+      title: 'API Integration',
+      lastMessage: 'Here\'s how to integrate the REST API...',
+      timestamp: new Date(Date.now() - 7200000).toISOString()
+    },
+    {
+      id: '4',
+      title: 'Database Design',
+      lastMessage: 'For your use case, I recommend...',
+      timestamp: new Date(Date.now() - 10800000).toISOString()
+    },
+    {
+      id: '5',
+      title: 'UI/UX Discussion',
+      lastMessage: 'The user experience should focus on...',
+      timestamp: new Date(Date.now() - 14400000).toISOString()
+    },
+    {
+      id: '6',
+      title: 'Performance Optimization',
+      lastMessage: 'To improve performance, consider...',
+      timestamp: new Date(Date.now() - 18000000).toISOString()
     }
   ]);
   
   const [selectedChatId, setSelectedChatId] = useState('1');
   const [messages, setMessages] = useState({
-    '1': [
-      {
-        id: '1-1',
-        role: 'assistant',
-        content: 'Hello! I\'m here to help you with any questions you might have. How can I assist you today?',
-        timestamp: new Date().toISOString()
-      }
-    ],
+    '1': [],
     '2': [
       {
         id: '2-1',
