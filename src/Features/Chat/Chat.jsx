@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Bot, Menu, X } from 'lucide-react';
 import ChatListPane from '../ChatListPane';
 import ChatThread from '../ChatThread';
+import chatStartData from '../ChatThread/chat_start.json';
+import chatApiData from '../ChatThread/chat_api.json';
 
 const Chat = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -9,6 +11,7 @@ const Chat = () => {
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [messages, setMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionIds, setSessionIds] = useState({}); // Track session IDs for each chat
 
   // Keyboard shortcut for toggling sidebar
   useEffect(() => {
@@ -49,6 +52,13 @@ const Chat = () => {
       return newMessages;
     });
     
+    // Remove session ID
+    setSessionIds(prev => {
+      const newSessionIds = { ...prev };
+      delete newSessionIds[chatId];
+      return newSessionIds;
+    });
+    
     // Select the first available chat or create a new one
     const remainingChats = chats.filter(chat => chat.id !== chatId);
     if (remainingChats.length > 0) {
@@ -56,6 +66,33 @@ const Chat = () => {
     } else {
       setSelectedChatId(null);
     }
+  };
+
+  // Simulate API call for first message
+  const simulateChatStartAPI = async (userMessage) => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    
+    // Return data from chat_start.json
+    return {
+      session_id: chatStartData.session_id,
+      extracted_keywords: chatStartData.extracted_keywords,
+      questions: chatStartData.questions
+    };
+  };
+
+  // Simulate API call for subsequent messages
+  const simulateChatAPI = async (userMessage, sessionId, conversationHistory) => {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    
+    // Return data from chat_api.json
+    return {
+      session_id: chatApiData.session_id,
+      response: chatApiData.response,
+      stage: chatApiData.stage,
+      conversation_history: chatApiData.conversation_history
+    };
   };
 
   const handleSendMessage = async (content) => {
@@ -102,42 +139,87 @@ const Chat = () => {
 
     setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const assistantMessage = {
+    try {
+      let apiResponse;
+      
+      // Check if this is the first message in the conversation
+      const isFirstMessage = currentMessages.length === 0;
+      
+      if (isFirstMessage) {
+        // First message - use chat_start API
+        apiResponse = await simulateChatStartAPI(content);
+        
+        // Store session ID for this chat
+        setSessionIds(prev => ({
+          ...prev,
+          [chatId]: apiResponse.session_id
+        }));
+        
+        // Create assistant response from chat_start data
+        const assistantMessage = {
+          id: `${chatId}-${Date.now() + 1}`,
+          role: 'assistant',
+          content: apiResponse.questions.join('\n\n'),
+          timestamp: new Date().toISOString()
+        };
+        
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [...(prev[chatId] || []), assistantMessage]
+        }));
+        
+        // Update last message
+        setChats(prev => prev.map(chat => 
+          chat.id === chatId 
+            ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
+            : chat
+        ));
+        
+      } else {
+        // Subsequent messages - use chat API
+        const sessionId = sessionIds[chatId];
+        const conversationHistory = [...currentMessages, userMessage].map(msg => msg.content);
+        
+        apiResponse = await simulateChatAPI(content, sessionId, conversationHistory);
+        
+        // Create assistant response from chat_api data
+        const assistantMessage = {
+          id: `${chatId}-${Date.now() + 1}`,
+          role: 'assistant',
+          content: apiResponse.response,
+          timestamp: new Date().toISOString()
+        };
+        
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [...(prev[chatId] || []), assistantMessage]
+        }));
+        
+        // Update last message
+        setChats(prev => prev.map(chat => 
+          chat.id === chatId 
+            ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
+            : chat
+        ));
+      }
+      
+    } catch (error) {
+      console.error('API call failed:', error);
+      // Fallback response
+      const fallbackMessage = {
         id: `${chatId}-${Date.now() + 1}`,
         role: 'assistant',
-        content: generateAIResponse(content),
+        content: "I'm sorry, I'm having trouble processing your request right now. Please try again.",
         timestamp: new Date().toISOString()
       };
-
+      
       setMessages(prev => ({
         ...prev,
-        [chatId]: [...(prev[chatId] || []), assistantMessage]
+        [chatId]: [...(prev[chatId] || []), fallbackMessage]
       }));
-
-      // Update last message
-      setChats(prev => prev.map(chat => 
-        chat.id === chatId 
-          ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
-          : chat
-      ));
-
+    } finally {
       setIsLoading(false);
-    }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
-  };
-
-  const generateAIResponse = (userMessage) => {
-    // Simple response generation - replace with actual AI integration
-    const responses = [
-      "I understand you're asking about that. Let me help you with that.",
-      "That's an interesting question. Here's what I can tell you about it.",
-      "I'd be happy to help you with that. Let me provide some information.",
-      "That's a great question! Here's my response to help you out.",
-      "I can assist you with that. Let me give you a detailed answer."
-    ];
-    
-    return responses[Math.floor(Math.random() * responses.length)];
+    }
   };
 
   const currentMessages = messages[selectedChatId] || [];
