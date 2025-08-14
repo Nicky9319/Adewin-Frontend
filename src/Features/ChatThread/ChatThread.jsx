@@ -79,7 +79,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
                 Adewin
               </h3>
               <p className="text-[#E5E5E7] text-base lg:text-lg font-secondary body-line-height">
-                Hello, Marvin what type of campaign would you like to run today?
+                Hello! How can I help you today?
               </p>
             </div>
           </div>

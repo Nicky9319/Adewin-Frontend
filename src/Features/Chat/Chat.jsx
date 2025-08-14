@@ -5,64 +5,9 @@ import ChatThread from '../ChatThread';
 
 const Chat = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [chats, setChats] = useState([
-    {
-      id: '1',
-      title: 'General Questions',
-      lastMessage: 'How can I help you with React development?',
-      timestamp: new Date().toISOString()
-    },
-    {
-      id: '2',
-      title: 'Code Review',
-      lastMessage: 'Let me review your JavaScript code...',
-      timestamp: new Date(Date.now() - 3600000).toISOString()
-    },
-    {
-      id: '3',
-      title: 'API Integration',
-      lastMessage: 'Here\'s how to integrate the REST API...',
-      timestamp: new Date(Date.now() - 7200000).toISOString()
-    },
-    {
-      id: '4',
-      title: 'Database Design',
-      lastMessage: 'For your use case, I recommend...',
-      timestamp: new Date(Date.now() - 10800000).toISOString()
-    },
-    {
-      id: '5',
-      title: 'UI/UX Discussion',
-      lastMessage: 'The user experience should focus on...',
-      timestamp: new Date(Date.now() - 14400000).toISOString()
-    },
-    {
-      id: '6',
-      title: 'Performance Optimization',
-      lastMessage: 'To improve performance, consider...',
-      timestamp: new Date(Date.now() - 18000000).toISOString()
-    }
-  ]);
-  
-  const [selectedChatId, setSelectedChatId] = useState('1');
-  const [messages, setMessages] = useState({
-    '1': [],
-    '2': [
-      {
-        id: '2-1',
-        role: 'user',
-        content: 'Can you review this JavaScript code?',
-        timestamp: new Date(Date.now() - 3600000).toISOString()
-      },
-      {
-        id: '2-2',
-        role: 'assistant',
-        content: 'I\'d be happy to review your JavaScript code! Please share the code you\'d like me to look at.',
-        timestamp: new Date(Date.now() - 3600000).toISOString()
-      }
-    ]
-  });
-  
+  const [chats, setChats] = useState([]);
+  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [messages, setMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   // Keyboard shortcut for toggling sidebar
@@ -109,14 +54,34 @@ const Chat = () => {
     if (remainingChats.length > 0) {
       setSelectedChatId(remainingChats[0].id);
     } else {
-      handleNewChat();
+      setSelectedChatId(null);
     }
   };
 
   const handleSendMessage = async (content) => {
-    const currentMessages = messages[selectedChatId] || [];
+    let chatId = selectedChatId;
+    
+    // If no chat is selected, create a new one
+    if (!chatId) {
+      chatId = Date.now().toString();
+      const newChat = {
+        id: chatId,
+        title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
+        lastMessage: content,
+        timestamp: new Date().toISOString()
+      };
+      
+      setChats(prev => [newChat, ...prev]);
+      setSelectedChatId(chatId);
+      setMessages(prev => ({
+        ...prev,
+        [chatId]: []
+      }));
+    }
+
+    const currentMessages = messages[chatId] || [];
     const userMessage = {
-      id: `${selectedChatId}-${Date.now()}`,
+      id: `${chatId}-${Date.now()}`,
       role: 'user',
       content,
       timestamp: new Date().toISOString()
@@ -125,12 +90,12 @@ const Chat = () => {
     // Add user message
     setMessages(prev => ({
       ...prev,
-      [selectedChatId]: [...currentMessages, userMessage]
+      [chatId]: [...currentMessages, userMessage]
     }));
 
     // Update chat title and last message
     setChats(prev => prev.map(chat => 
-      chat.id === selectedChatId 
+      chat.id === chatId 
         ? { ...chat, lastMessage: content, timestamp: new Date().toISOString() }
         : chat
     ));
@@ -140,7 +105,7 @@ const Chat = () => {
     // Simulate AI response
     setTimeout(() => {
       const assistantMessage = {
-        id: `${selectedChatId}-${Date.now() + 1}`,
+        id: `${chatId}-${Date.now() + 1}`,
         role: 'assistant',
         content: generateAIResponse(content),
         timestamp: new Date().toISOString()
@@ -148,12 +113,12 @@ const Chat = () => {
 
       setMessages(prev => ({
         ...prev,
-        [selectedChatId]: [...(prev[selectedChatId] || []), assistantMessage]
+        [chatId]: [...(prev[chatId] || []), assistantMessage]
       }));
 
       // Update last message
       setChats(prev => prev.map(chat => 
-        chat.id === selectedChatId 
+        chat.id === chatId 
           ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
           : chat
       ));
@@ -163,21 +128,16 @@ const Chat = () => {
   };
 
   const generateAIResponse = (userMessage) => {
+    // Simple response generation - replace with actual AI integration
     const responses = [
-      "That's an interesting question! Let me help you with that.",
-      "I understand what you're asking. Here's what I can tell you...",
-      "Great question! Based on my knowledge, here's what I think...",
-      "I'd be happy to help you with that. Let me break it down...",
-      "That's a good point. Here's my perspective on this...",
-      "I can definitely assist you with that. Here's what you should know...",
-      "Thanks for asking! Here's what I found about that topic...",
-      "I'm glad you brought that up. Let me explain...",
-      "That's a common question. Here's what I recommend...",
-      "I can help you with that! Here's my advice..."
+      "I understand you're asking about that. Let me help you with that.",
+      "That's an interesting question. Here's what I can tell you about it.",
+      "I'd be happy to help you with that. Let me provide some information.",
+      "That's a great question! Here's my response to help you out.",
+      "I can assist you with that. Let me give you a detailed answer."
     ];
     
-    return responses[Math.floor(Math.random() * responses.length)] + 
-           " This is a simulated response. In a real application, this would be connected to an AI service like OpenAI's API.";
+    return responses[Math.floor(Math.random() * responses.length)];
   };
 
   const currentMessages = messages[selectedChatId] || [];
