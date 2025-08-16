@@ -68,31 +68,68 @@ const Chat = () => {
     }
   };
 
-  // Simulate API call for first message
+  // API call for first message
   const simulateChatStartAPI = async (userMessage) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-    
-    // Return data from chat_start.json
-    return {
-      session_id: chatStartData.session_id,
-      extracted_keywords: chatStartData.extracted_keywords,
-      questions: chatStartData.questions
-    };
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/prompt/start', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: userMessage
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('API call failed:', error);
+      // Fallback to hardcoded data if API fails
+      return {
+        session_id: chatStartData.session_id,
+        extracted_keywords: chatStartData.extracted_keywords,
+        questions: chatStartData.questions
+      };
+      throw error; // Re-throw to handle in the calling function
+    }
   };
 
-  // Simulate API call for subsequent messages
+  // API call for subsequent messages
   const simulateChatAPI = async (userMessage, sessionId, conversationHistory) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-    
-    // Return data from chat_api.json
-    return {
-      session_id: chatApiData.session_id,
-      response: chatApiData.response,
-      stage: chatApiData.stage,
-      conversation_history: chatApiData.conversation_history
-    };
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          session_id: sessionId,
+          message: userMessage
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('API call failed:', error);
+      // Fallback to hardcoded data if API fails
+      return {
+        session_id: chatApiData.session_id,
+        response: chatApiData.response,
+        stage: chatApiData.stage,
+        conversation_history: chatApiData.conversation_history
+      };
+      throw error; // Re-throw to handle in the calling function
+    }
   };
 
   const handleSendMessage = async (content) => {
