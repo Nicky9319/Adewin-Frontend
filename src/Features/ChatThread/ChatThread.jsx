@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, Image, Mic, MicOff } from 'lucide-react';
+import { Send, Image, Mic, MicOff } from 'lucide-react';
 import Message from './Message';
 
 const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
@@ -72,14 +72,11 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
         {messages.length === 0 ? (
           <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
             <div className="text-center px-4">
-              <div className="w-16 h-16 lg:w-20 lg:h-20 mx-auto mb-4 lg:mb-6 rounded-full bg-[#1C1C1E] flex items-center justify-center shadow-lg">
-                <Bot size={32} className="lg:w-10 lg:h-10 text-[#FFFFFF]" />
-              </div>
               <h3 className="text-3xl lg:text-4xl font-bold text-[#FFFFFF] mb-3 lg:mb-4 font-primary heading-line-height">
-                Adewin
+                Hello, Marvin
               </h3>
               <p className="text-[#E5E5E7] text-base lg:text-lg font-secondary body-line-height">
-                Hello! How can I help you today?
+                How can I help you today?
               </p>
             </div>
           </div>
@@ -100,9 +97,9 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
           <div className="flex justify-start">
             <div className="max-w-3xl flex items-start space-x-3">
               <div className="w-8 h-8 rounded-full bg-[#1C1C1E] flex items-center justify-center flex-shrink-0">
-                <Bot size={16} className="text-[#007AFF]" />
+                <div className="w-4 h-4 bg-[#007AFF] rounded-full"></div>
               </div>
-              <div className="bg-[#111111] rounded-lg px-4 py-3 border border-[#1C1C1E]">
+              <div className="bg-black rounded-lg px-4 py-3 border border-[#1C1C1E]">
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 bg-[#007AFF] rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-[#007AFF] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -117,14 +114,14 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       </div>
 
       {/* Input Container */}
-      <div className="border-t border-[#1C1C1E] p-3 lg:p-4 bg-[#111111] flex-shrink-0">
+      <div className="border-t border-[#1C1C1E] p-3 lg:p-4 bg-black flex-shrink-0">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
             <textarea
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Message AI Assistant... (Press Enter to send, Shift+Enter for new line)"
+              placeholder="Message Marvin... (Press Enter to send, Shift+Enter for new line)"
               className="w-full p-2.5 lg:p-3 pr-28 lg:pr-32 rounded-lg bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#FFFFFF] focus:ring-1 focus:ring-[#FFFFFF] focus:ring-opacity-20 transition-all duration-200 font-secondary body-line-height text-sm lg:text-base"
               rows="1"
               style={{ minHeight: '40px', maxHeight: '120px' }}
@@ -180,7 +177,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
           <div className="flex items-center justify-end mt-1.5 lg:mt-2">
             <div className="flex items-center space-x-1.5 lg:space-x-2">
               <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-[#FFFFFF] rounded-full"></div>
-              <span className="text-xs text-[#8E8E93] font-secondary">AI Assistant is ready</span>
+              <span className="text-xs text-[#8E8E93] font-secondary">Marvin is ready</span>
             </div>
           </div>
         </form>

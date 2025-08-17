@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import ChatListPane from '../ChatListPane';
 import ChatThread from '../ChatThread';
 import chatStartData from '../ChatThread/chat_start.json';
@@ -286,12 +286,10 @@ const Chat = () => {
         />
       </div>
       
-      {/* No standalone close button – header toggle handles both open/close */}
-      
       {/* Main Content */}
       <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
         {/* Header */}
-        <div className="bg-[#111111] border-b border-[#1C1C1E] px-3 lg:px-6 py-3 lg:py-4 flex-shrink-0">
+        <div className="bg-black border-b border-[#1C1C1E] px-3 lg:px-6 py-3 lg:py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Sidebar Toggle Button (visible on all screens) */}
@@ -307,17 +305,9 @@ const Chat = () => {
                 )}
               </button>
               
-              <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#1C1C1E] flex items-center justify-center">
-                <Bot size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
-              </div>
               <div>
-                <h1 className="text-base lg:text-lg font-semibold text-white font-primary heading-line-height">AI Assistant</h1>
-                <p className="text-xs lg:text-sm text-[#8E8E93] font-secondary body-line-height">Powered by advanced AI</p>
+                <h1 className="text-base lg:text-lg font-semibold text-white font-primary heading-line-height">Hello, Marvin</h1>
               </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-[#FFFFFF] rounded-full animate-pulse"></div>
-              <span className="text-xs lg:text-sm text-[#8E8E93] font-secondary">Online</span>
             </div>
           </div>
         </div>
