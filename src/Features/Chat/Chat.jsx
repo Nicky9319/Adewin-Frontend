@@ -306,7 +306,7 @@ const Chat = () => {
               </button>
               
               <div>
-                <h1 className="text-base lg:text-lg font-semibold text-white font-primary heading-line-height">Hello, Marvin</h1>
+                <h1 className="text-base lg:text-lg font-semibold text-white font-primary heading-line-height">Marvin</h1>
               </div>
             </div>
           </div>
