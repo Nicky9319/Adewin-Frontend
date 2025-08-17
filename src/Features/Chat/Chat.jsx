@@ -59,6 +59,16 @@ const Chat = () => {
     }));
   };
 
+  const handleViewChat = (chatId) => {
+    setSelectedChatId(chatId);
+  };
+
+  const handleEditChat = (chatId) => {
+    // For now, just select the chat to show the chat thread
+    // In the future, this could open an edit mode
+    setSelectedChatId(chatId);
+  };
+
   const handleDeleteChat = (chatId) => {
     setChats(prev => prev.filter(chat => chat.id !== chatId));
     setMessages(prev => {
@@ -288,6 +298,8 @@ const Chat = () => {
             onChatSelect={setSelectedChatId}
             onNewChat={handleNewChat}
             onDeleteChat={handleDeleteChat}
+            onViewChat={handleViewChat}
+            onEditChat={handleEditChat}
           />
         </div>
       )}

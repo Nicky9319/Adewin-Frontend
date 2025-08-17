@@ -1,11 +1,45 @@
 import React, { useState } from 'react';
 import { Plus, MessageSquare, Trash2, Settings, User, X, Menu } from 'lucide-react';
 
-const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDeleteChat }) => {
+const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDeleteChat, onViewChat, onEditChat }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [activeChatId, setActiveChatId] = useState(null);
 
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
+  };
+
+  const handleChatClick = (chatId) => {
+    if (activeChatId === chatId) {
+      setActiveChatId(null);
+    } else {
+      setActiveChatId(chatId);
+    }
+  };
+
+  const handleView = (chatId, e) => {
+    e.stopPropagation();
+    onViewChat(chatId);
+    setActiveChatId(null);
+  };
+
+  const handleEdit = (chatId, e) => {
+    e.stopPropagation();
+    onEditChat(chatId);
+    setActiveChatId(null);
+  };
+
+  const handleDelete = (chatId, e) => {
+    e.stopPropagation();
+    onDeleteChat(chatId);
+    setActiveChatId(null);
+  };
+
+  // Close floating options when clicking outside
+  const handleContainerClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setActiveChatId(null);
+    }
   };
 
   return (
@@ -13,6 +47,7 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
       className={`h-full bg-white border-r border-gray-200 transition-all duration-300 flex flex-col ${
         isCollapsed ? 'w-16' : 'w-80'
       }`}
+      onClick={handleContainerClick}
     >
       {/* Header */}
       <div className={`border-b border-gray-200 flex-shrink-0 ${isCollapsed ? 'p-2' : 'p-4'}`}>
@@ -56,17 +91,19 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
           {!isCollapsed && chats.map((chat) => (
             <div
               key={chat.id}
-              onClick={() => onChatSelect(chat.id)}
-              className={`${isCollapsed ? 'p-2' : 'p-3'} rounded-lg mb-2 cursor-pointer transition-all duration-200 ${
-                selectedChatId === chat.id
-                  ? 'bg-gray-100 text-black'
-                  : 'hover:bg-gray-50 text-gray-700'
-              }`}
+              className="relative"
             >
-              <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
-                <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3 min-w-0 flex-1'}`}>
-                  <MessageSquare size={16} />
-                  {!isCollapsed && (
+              <div
+                onClick={() => handleChatClick(chat.id)}
+                className={`p-3 rounded-lg mb-2 cursor-pointer transition-all duration-200 ${
+                  selectedChatId === chat.id
+                    ? 'bg-gray-100 text-black'
+                    : 'hover:bg-gray-50 text-gray-700'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3 min-w-0 flex-1">
+                    <MessageSquare size={16} />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium truncate font-primary">
                         {chat.title || 'New Chat'}
@@ -75,21 +112,39 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
                         {chat.lastMessage || 'No messages yet'}
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
-                {!isCollapsed && selectedChatId === chat.id && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDeleteChat(chat.id);
-                    }}
-                    className="p-1 rounded hover:bg-gray-200 transition-colors"
-                    title="Delete Chat"
-                  >
-                    <Trash2 size={14} />
-                  </button>
-                )}
               </div>
+
+              {/* Floating Action Buttons */}
+              {activeChatId === chat.id && (
+                <div className="absolute right-2 top-0 flex flex-col space-y-1 z-[9999]">
+                  <button
+                    onClick={(e) => handleView(chat.id, e)}
+                    className="px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out text-black border border-gray-200 shadow-lg text-xs font-medium whitespace-nowrap"
+                    title="View Chat"
+                    style={{ animationDelay: '0s' }}
+                  >
+                    View
+                  </button>
+                  <button
+                    onClick={(e) => handleEdit(chat.id, e)}
+                    className="px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out text-black border border-gray-200 shadow-lg text-xs font-medium whitespace-nowrap"
+                    title="Edit Chat"
+                    style={{ animationDelay: '0.1s' }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={(e) => handleDelete(chat.id, e)}
+                    className="px-3 py-2 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 ease-in-out text-black border border-gray-200 shadow-lg text-xs font-medium whitespace-nowrap"
+                    title="Delete Chat"
+                    style={{ animationDelay: '0.2s' }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))}
           {/* Add Chat Button - shown when collapsed */}
