@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Image, Mic, MicOff, Play } from 'lucide-react';
 import Message from './Message';
 
-const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHistory = false, onLaunchCampaign }) => {
+const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHistory = false, isTemporaryChat = false, onLaunchCampaign }) => {
   const [inputValue, setInputValue] = useState('');
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -168,8 +168,8 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
             
             {/* Action Buttons */}
             <div className="absolute right-2 bottom-2 flex items-center space-x-1">
-              {/* Launch Campaign Button - only show when no chat history */}
-              {!hasChatHistory && (
+              {/* Launch Campaign Button - only show when in temporary chat */}
+              {isTemporaryChat && (
                 <button
                   type="button"
                   onClick={handleLaunchCampaign}

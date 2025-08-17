@@ -14,20 +14,17 @@ const Chat = () => {
 
 
   const handleNewChat = () => {
-    const newChatId = Date.now().toString();
-    const newChat = {
-      id: newChatId,
-      title: 'New Chat',
-      lastMessage: 'No messages yet',
-      timestamp: new Date().toISOString()
-    };
+    // Create a temporary chat that doesn't get added to chat history
+    const tempChatId = 'temp-chat';
     
-    setChats(prev => [newChat, ...prev]);
+    // Clear any existing temporary chat messages
     setMessages(prev => ({
       ...prev,
-      [newChatId]: []
+      [tempChatId]: []
     }));
-    setSelectedChatId(newChatId);
+    
+    // Deselect any existing chat to show the temporary chat
+    setSelectedChatId(null);
   };
 
   const handleLaunchCampaign = () => {
@@ -55,8 +52,11 @@ const Chat = () => {
     // Keep the current conversation visible by selecting the new chat
     setSelectedChatId(newChatId);
     
-    // Show the sidebar
-    setIsSidebarOpen(true);
+    // Clear the temporary chat
+    setMessages(prev => ({
+      ...prev,
+      'temp-chat': []
+    }));
   };
 
   const handleDeleteChat = (chatId) => {
@@ -273,7 +273,7 @@ const Chat = () => {
     }
   };
 
-  const currentMessages = chats.length > 0 ? (messages[selectedChatId] || []) : (messages['temp-chat'] || []);
+  const currentMessages = selectedChatId ? (messages[selectedChatId] || []) : (messages['temp-chat'] || []);
 
   return (
     <div className="flex h-screen bg-white overflow-hidden">
@@ -318,6 +318,7 @@ const Chat = () => {
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
             hasChatHistory={chats.length > 0}
+            isTemporaryChat={!selectedChatId}
             onLaunchCampaign={handleLaunchCampaign}
           />
         </div>
