@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Plus, MessageSquare, Trash2, Settings, User, X } from 'lucide-react';
+import { Plus, MessageSquare, Trash2, Settings, User, X, Menu } from 'lucide-react';
 
-const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDeleteChat, isOpen, onToggle }) => {
+const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDeleteChat }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <div 
@@ -11,38 +15,56 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
       }`}
     >
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 flex-shrink-0">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            {!isCollapsed && (
-              <h2 className="text-lg font-semibold text-black font-primary">Chats</h2>
+      <div className={`border-b border-gray-200 flex-shrink-0 ${isCollapsed ? 'p-2' : 'p-4'}`}>
+        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+          {!isCollapsed && (
+            <div className="flex items-center space-x-3">
+              <h2 className="text-lg font-semibold text-black font-primary">Adewin</h2>
+            </div>
+          )}
+          {/* Toggle Button */}
+          <button
+            onClick={handleToggle}
+            className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
+            title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+          >
+            {isCollapsed ? (
+              <Menu size={18} className="text-black" />
+            ) : (
+              <X size={18} className="text-black" />
             )}
-            <button
-              onClick={onNewChat}
-              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-              title="New Chat"
-            >
-              <Plus size={18} className="text-black" />
-            </button>
-          </div>
+          </button>
         </div>
       </div>
 
+      {/* New Chat Button - shown when expanded */}
+      {!isCollapsed && (
+        <div className="p-4 border-b border-gray-200">
+          <button
+            onClick={onNewChat}
+            className="w-full p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center space-x-3"
+          >
+            <Plus size={18} className="text-black" />
+            <span className="text-sm font-medium text-black font-primary">Start new chat</span>
+          </button>
+        </div>
+      )}
+
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto min-h-0">
-        <div className="p-2">
-          {chats.map((chat) => (
+        <div className={`${isCollapsed ? 'p-2' : 'p-2'}`}>
+          {!isCollapsed && chats.map((chat) => (
             <div
               key={chat.id}
               onClick={() => onChatSelect(chat.id)}
-              className={`p-3 rounded-lg mb-2 cursor-pointer transition-all duration-200 ${
+              className={`${isCollapsed ? 'p-2' : 'p-3'} rounded-lg mb-2 cursor-pointer transition-all duration-200 ${
                 selectedChatId === chat.id
                   ? 'bg-gray-100 text-black'
                   : 'hover:bg-gray-50 text-gray-700'
               }`}
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3 min-w-0 flex-1">
+              <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+                <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3 min-w-0 flex-1'}`}>
                   <MessageSquare size={16} />
                   {!isCollapsed && (
                     <div className="min-w-0 flex-1">
@@ -70,12 +92,24 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
               </div>
             </div>
           ))}
+          {/* Add Chat Button - shown when collapsed */}
+          {isCollapsed && (
+            <div className="mt-4">
+              <button
+                onClick={onNewChat}
+                className="w-full p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center"
+                title="New Chat"
+              >
+                <Plus size={18} className="text-black" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200 flex-shrink-0">
-        <div className="flex items-center space-x-3">
+      <div className={`border-t border-gray-200 flex-shrink-0 ${isCollapsed ? 'p-2' : 'p-4'}`}>
+        <div className={`flex items-center ${isCollapsed ? 'flex-col space-y-2 justify-center' : 'space-x-3'}`}>
           <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
             <User size={16} className="text-black" />
           </div>

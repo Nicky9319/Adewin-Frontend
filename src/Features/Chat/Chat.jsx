@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
 import ChatListPane from '../ChatListPane';
 import ChatThread from '../ChatThread';
 import chatStartData from '../ChatThread/chat_start.json';
 import chatApiData from '../ChatThread/chat_api.json';
 
 const Chat = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chats, setChats] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [messages, setMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [sessionIds, setSessionIds] = useState({}); // Track session IDs for each chat
 
-  // Keyboard shortcut for toggling sidebar
-  useEffect(() => {
-    const handleKeyPress = (event) => {
-      // Cmd/Ctrl + B to toggle sidebar
-      if ((event.metaKey || event.ctrlKey) && event.key === 'b') {
-        event.preventDefault();
-        setIsSidebarOpen(!isSidebarOpen);
-      }
-    };
 
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isSidebarOpen]);
 
   const handleNewChat = () => {
     const newChatId = Date.now().toString();
@@ -291,55 +277,28 @@ const Chat = () => {
 
   return (
     <div className="flex h-screen bg-white overflow-hidden">
-      {/* Sidebar Overlay for mobile - only show when sidebar is open and chats exist */}
-      {isSidebarOpen && chats.length > 0 && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+
       
-      {/* Chat List Pane - only show when chats exist */}
+      {/* Chat List Pane - always show when chats exist */}
       {chats.length > 0 && (
-        <div className={`fixed top-0 left-0 h-full z-30 sidebar-toggle ${
-          isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
-        }`} style={{ width: '320px' }}>
+        <div className="h-full flex-shrink-0">
           <ChatListPane
             chats={chats}
             selectedChatId={selectedChatId}
             onChatSelect={setSelectedChatId}
             onNewChat={handleNewChat}
             onDeleteChat={handleDeleteChat}
-            isOpen={isSidebarOpen}
-            onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
           />
         </div>
       )}
       
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen && chats.length > 0 ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
-        {/* Header - only show sidebar toggle when chats exist */}
+      <div className="flex-1 flex flex-col min-w-0 relative transition-all duration-300">
+        {/* Header */}
         <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
-            {/* Left side - Sidebar Toggle Button (only when chats exist) */}
-            {chats.length > 0 && (
-              <div className="flex items-center">
-                <button
-                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
-                  title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
-                >
-                  {isSidebarOpen ? (
-                    <X size={20} className="text-black" />
-                  ) : (
-                    <Menu size={20} className="text-black" />
-                  )}
-                </button>
-              </div>
-            )}
-            
             {/* Center - Adewin Title */}
-            <div className={`flex justify-center ${chats.length > 0 ? 'flex-1' : 'w-full'}`}>
+            <div className="flex justify-center w-full">
               <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
             </div>
             
