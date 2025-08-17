@@ -70,7 +70,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
   return (
     <div className="flex flex-col h-full bg-white">
       {/* Messages Container */}
-      <div className={`flex-1 overflow-y-auto p-3 lg:p-4 space-y-4 lg:space-y-6 min-h-0 transition-all duration-500 ease-in-out ${hasMessages ? 'block opacity-100' : 'hidden opacity-0'}`}>
+      <div className={`flex-1 overflow-y-auto p-4 space-y-4 min-h-0 transition-all duration-500 ease-in-out ${hasMessages ? 'block opacity-100' : 'hidden opacity-0'}`}>
         {messages.map((message) => (
           <Message
             key={message.id}
@@ -106,7 +106,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       {!hasMessages && (
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center max-w-2xl w-full">
-            <h3 className="text-5xl lg:text-6xl font-bold text-black mb-1 font-primary heading-line-height">
+            <h3 className="text-5xl lg:text-6xl font-bold text-black mb-1 font-primary">
               Hello, Adewin
             </h3>
           </div>
@@ -114,7 +114,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       )}
 
       {/* Input Container - Single component that adapts */}
-      <div className={`${hasMessages ? 'p-3 lg:p-4' : 'p-3 lg:p-4'} bg-white flex-shrink-0 transition-all duration-700 ease-in-out`}>
+      <div className="p-4 bg-white flex-shrink-0 transition-all duration-700 ease-in-out">
         {/* Suggested Actions - only show when no messages */}
         {!hasMessages && (
           <div className="mb-4 flex flex-wrap gap-2 justify-center">
@@ -156,9 +156,9 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask Adewin..."
-              className={`w-full ${hasMessages ? 'p-3' : 'p-4'} pr-28 lg:pr-32 rounded-2xl bg-gray-50 border border-gray-300 text-black placeholder-gray-500 resize-none focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-20 transition-all duration-700 ease-in-out font-secondary body-line-height text-sm lg:text-base shadow-lg`}
+              className="w-full p-4 pr-28 rounded-2xl bg-gray-50 border border-gray-300 text-black placeholder-gray-500 resize-none focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-20 transition-all duration-700 ease-in-out font-secondary text-base shadow-lg"
               rows="1"
-              style={{ minHeight: hasMessages ? '50px' : '60px', maxHeight: '120px' }}
+              style={{ minHeight: '60px', maxHeight: '120px' }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();

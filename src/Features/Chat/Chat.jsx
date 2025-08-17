@@ -289,29 +289,29 @@ const Chat = () => {
       {/* Main Content */}
       <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-3 lg:px-6 py-3 lg:py-4 flex-shrink-0">
+        <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               {/* Sidebar Toggle Button (visible on all screens) */}
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 lg:p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
                 title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
               >
                 {isSidebarOpen ? (
-                  <X size={18} className="lg:w-5 lg:h-5 text-black" />
+                  <X size={20} className="text-black" />
                 ) : (
-                  <Menu size={18} className="lg:w-5 lg:h-5 text-black" />
+                  <Menu size={20} className="text-black" />
                 )}
               </button>
               
               <div>
-                <h1 className="text-base lg:text-lg font-semibold text-black font-primary heading-line-height">Adewin</h1>
+                <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
               </div>
             </div>
             
             {/* Account/Profile Section */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <span className="text-sm font-medium text-gray-600">U</span>
               </div>
