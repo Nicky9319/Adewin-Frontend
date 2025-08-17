@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Image, Mic, MicOff } from 'lucide-react';
+import { Send, Image, Mic, MicOff, Play } from 'lucide-react';
 import Message from './Message';
 
-const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
+const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHistory = false, onLaunchCampaign }) => {
   const [inputValue, setInputValue] = useState('');
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -65,6 +65,12 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
     }
   };
 
+  const handleLaunchCampaign = () => {
+    if (onLaunchCampaign) {
+      onLaunchCampaign();
+    }
+  };
+
   const hasMessages = messages.length > 0;
 
   return (
@@ -113,7 +119,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
         </div>
       )}
 
-      {/* Input Container - Single component that adapts */}
+      {/* Input Container - always show */}
       <div className="p-4 bg-white flex-shrink-0 transition-all duration-700 ease-in-out">
         {/* Suggested Actions - only show when no messages */}
         {!hasMessages && (
@@ -162,6 +168,18 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
             
             {/* Action Buttons */}
             <div className="absolute right-2 bottom-2 flex items-center space-x-1">
+              {/* Launch Campaign Button - only show when no chat history */}
+              {!hasChatHistory && (
+                <button
+                  type="button"
+                  onClick={handleLaunchCampaign}
+                  className="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out text-white"
+                  title="Launch Campaign"
+                >
+                  <Play size={16} />
+                </button>
+              )}
+              
               {/* Image Upload Button */}
               <button
                 type="button"
@@ -201,7 +219,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
             </div>
           </div>
           
-          {/* Status indicator - only show in centered mode */}
+          {/* Status indicator - only show when no messages */}
           {!hasMessages && (
             <div className="flex items-center justify-end mt-2 transition-all duration-700 ease-in-out">
               <div className="flex items-center space-x-2">

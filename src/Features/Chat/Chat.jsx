@@ -44,6 +44,35 @@ const Chat = () => {
     setSelectedChatId(newChatId);
   };
 
+  const handleLaunchCampaign = () => {
+    // Create a new chat with the current conversation
+    const newChatId = Date.now().toString();
+    const currentMessages = messages['temp-chat'] || [];
+    
+    // Get the first message content for the title
+    const firstMessage = currentMessages[0]?.content || 'New Campaign';
+    const title = firstMessage.length > 30 ? firstMessage.substring(0, 30) + '...' : firstMessage;
+    
+    const newChat = {
+      id: newChatId,
+      title: title,
+      lastMessage: currentMessages[currentMessages.length - 1]?.content || 'No messages yet',
+      timestamp: new Date().toISOString()
+    };
+    
+    setChats(prev => [newChat, ...prev]);
+    setMessages(prev => ({
+      ...prev,
+      [newChatId]: [...currentMessages] // Copy current messages to new chat
+    }));
+    
+    // Keep the current conversation visible by selecting the new chat
+    setSelectedChatId(newChatId);
+    
+    // Show the sidebar
+    setIsSidebarOpen(true);
+  };
+
   const handleDeleteChat = (chatId) => {
     setChats(prev => prev.filter(chat => chat.id !== chatId));
     setMessages(prev => {
@@ -135,22 +164,15 @@ const Chat = () => {
   const handleSendMessage = async (content) => {
     let chatId = selectedChatId;
     
-    // If no chat is selected, create a new one
+    // If no chat is selected, use a temporary chat for communication
     if (!chatId) {
-      chatId = Date.now().toString();
-      const newChat = {
-        id: chatId,
-        title: content.substring(0, 30) + (content.length > 30 ? '...' : ''),
-        lastMessage: content,
-        timestamp: new Date().toISOString()
-      };
-      
-      setChats(prev => [newChat, ...prev]);
-      setSelectedChatId(chatId);
-      setMessages(prev => ({
-        ...prev,
-        [chatId]: []
-      }));
+      chatId = 'temp-chat';
+      if (!messages[chatId]) {
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: []
+        }));
+      }
     }
 
     const currentMessages = messages[chatId] || [];
@@ -167,12 +189,14 @@ const Chat = () => {
       [chatId]: [...currentMessages, userMessage]
     }));
 
-    // Update chat title and last message
-    setChats(prev => prev.map(chat => 
-      chat.id === chatId 
-        ? { ...chat, lastMessage: content, timestamp: new Date().toISOString() }
-        : chat
-    ));
+    // Only update chat title and last message if this is a real chat (not temp)
+    if (chatId !== 'temp-chat') {
+      setChats(prev => prev.map(chat => 
+        chat.id === chatId 
+          ? { ...chat, lastMessage: content, timestamp: new Date().toISOString() }
+          : chat
+      ));
+    }
 
     setIsLoading(true);
 
@@ -205,12 +229,14 @@ const Chat = () => {
           [chatId]: [...(prev[chatId] || []), assistantMessage]
         }));
         
-        // Update last message
-        setChats(prev => prev.map(chat => 
-          chat.id === chatId 
-            ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
-            : chat
-        ));
+        // Only update last message if this is a real chat (not temp)
+        if (chatId !== 'temp-chat') {
+          setChats(prev => prev.map(chat => 
+            chat.id === chatId 
+              ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
+              : chat
+          ));
+        }
         
       } else {
         // Subsequent messages - use chat API
@@ -232,12 +258,14 @@ const Chat = () => {
           [chatId]: [...(prev[chatId] || []), assistantMessage]
         }));
         
-        // Update last message
-        setChats(prev => prev.map(chat => 
-          chat.id === chatId 
-            ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
-            : chat
-        ));
+        // Only update last message if this is a real chat (not temp)
+        if (chatId !== 'temp-chat') {
+          setChats(prev => prev.map(chat => 
+            chat.id === chatId 
+              ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
+              : chat
+          ));
+        }
       }
       
     } catch (error) {
@@ -259,55 +287,59 @@ const Chat = () => {
     }
   };
 
-  const currentMessages = messages[selectedChatId] || [];
+  const currentMessages = chats.length > 0 ? (messages[selectedChatId] || []) : (messages['temp-chat'] || []);
 
   return (
     <div className="flex h-screen bg-white overflow-hidden">
-      {/* Sidebar Overlay for mobile */}
-      {isSidebarOpen && (
+      {/* Sidebar Overlay for mobile - only show when sidebar is open and chats exist */}
+      {isSidebarOpen && chats.length > 0 && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
       
-      {/* Chat List Pane */}
-      <div className={`fixed top-0 left-0 h-full z-30 sidebar-toggle ${
-        isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
-      }`} style={{ width: '320px' }}>
-        <ChatListPane
-          chats={chats}
-          selectedChatId={selectedChatId}
-          onChatSelect={setSelectedChatId}
-          onNewChat={handleNewChat}
-          onDeleteChat={handleDeleteChat}
-          isOpen={isSidebarOpen}
-          onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-        />
-      </div>
+      {/* Chat List Pane - only show when chats exist */}
+      {chats.length > 0 && (
+        <div className={`fixed top-0 left-0 h-full z-30 sidebar-toggle ${
+          isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+        }`} style={{ width: '320px' }}>
+          <ChatListPane
+            chats={chats}
+            selectedChatId={selectedChatId}
+            onChatSelect={setSelectedChatId}
+            onNewChat={handleNewChat}
+            onDeleteChat={handleDeleteChat}
+            isOpen={isSidebarOpen}
+            onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+          />
+        </div>
+      )}
       
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
-        {/* Header */}
+      <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen && chats.length > 0 ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
+        {/* Header - only show sidebar toggle when chats exist */}
         <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
-            {/* Left side - Sidebar Toggle Button */}
-            <div className="flex items-center">
-              <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
-                title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
-              >
-                {isSidebarOpen ? (
-                  <X size={20} className="text-black" />
-                ) : (
-                  <Menu size={20} className="text-black" />
-                )}
-              </button>
-            </div>
+            {/* Left side - Sidebar Toggle Button (only when chats exist) */}
+            {chats.length > 0 && (
+              <div className="flex items-center">
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
+                  title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
+                >
+                  {isSidebarOpen ? (
+                    <X size={20} className="text-black" />
+                  ) : (
+                    <Menu size={20} className="text-black" />
+                  )}
+                </button>
+              </div>
+            )}
             
             {/* Center - Adewin Title */}
-            <div className="flex-1 flex justify-center">
+            <div className={`flex justify-center ${chats.length > 0 ? 'flex-1' : 'w-full'}`}>
               <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
             </div>
             
@@ -326,6 +358,8 @@ const Chat = () => {
             messages={currentMessages}
             onSendMessage={handleSendMessage}
             isLoading={isLoading}
+            hasChatHistory={chats.length > 0}
+            onLaunchCampaign={handleLaunchCampaign}
           />
         </div>
       </div>
