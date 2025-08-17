@@ -6,23 +6,23 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
 
   return (
     <div 
-      className={`h-full bg-black border-r border-[#1C1C1E] transition-all duration-300 flex flex-col ${
+      className={`h-full bg-white border-r border-gray-200 transition-all duration-300 flex flex-col ${
         isCollapsed ? 'w-16' : 'w-72 lg:w-80'
       }`}
     >
       {/* Header */}
-      <div className="p-3 lg:p-4 border-b border-[#1C1C1E] flex-shrink-0">
+      <div className="p-3 lg:p-4 border-b border-gray-200 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 lg:space-x-3">
             {!isCollapsed && (
-              <h2 className="text-white text-base lg:text-lg font-semibold font-primary heading-line-height">Chats</h2>
+              <h2 className="text-black text-base lg:text-lg font-semibold font-primary heading-line-height">Chats</h2>
             )}
             <button
               onClick={onNewChat}
-              className="p-1.5 lg:p-2 rounded-lg bg-[#1C1C1E] hover:bg-[#2D2D2F] transition-colors"
+              className="p-1.5 lg:p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
               title="New Chat"
             >
-              <Plus size={16} className="lg:w-5 lg:h-5 text-[#FFFFFF]" />
+              <Plus size={16} className="lg:w-5 lg:h-5 text-black" />
             </button>
           </div>
         </div>
@@ -37,8 +37,8 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
               onClick={() => onChatSelect(chat.id)}
               className={`p-2 lg:p-3 rounded-lg mb-1.5 lg:mb-2 cursor-pointer transition-all duration-200 ${
                 selectedChatId === chat.id
-                  ? 'bg-[#1C1C1E] text-[#FFFFFF]'
-                  : 'hover:bg-[#1C1C1E] text-[#E5E5E7]'
+                  ? 'bg-gray-100 text-black'
+                  : 'hover:bg-gray-50 text-gray-700'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -61,7 +61,7 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
                       e.stopPropagation();
                       onDeleteChat(chat.id);
                     }}
-                    className="p-1 rounded hover:bg-[#1C1C1E] transition-colors"
+                    className="p-1 rounded hover:bg-gray-200 transition-colors"
                     title="Delete Chat"
                   >
                     <Trash2 size={12} className="lg:w-3.5 lg:h-3.5" />
@@ -74,22 +74,22 @@ const ChatListPane = ({ onChatSelect, selectedChatId, chats, onNewChat, onDelete
       </div>
 
       {/* Footer */}
-      <div className="p-3 lg:p-4 border-t border-[#1C1C1E] flex-shrink-0">
+      <div className="p-3 lg:p-4 border-t border-gray-200 flex-shrink-0">
         <div className="flex items-center space-x-2 lg:space-x-3">
-          <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#1C1C1E] flex items-center justify-center">
-            <User size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
+          <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-gray-100 flex items-center justify-center">
+            <User size={14} className="lg:w-4 lg:h-4 text-black" />
           </div>
           {!isCollapsed && (
             <div className="flex-1">
-              <p className="text-xs lg:text-sm text-white font-medium font-primary">User</p>
-              <p className="text-xs text-[#8E8E93] font-secondary body-line-height">user@example.com</p>
+              <p className="text-xs lg:text-sm text-black font-medium font-primary">User</p>
+              <p className="text-xs text-gray-500 font-secondary body-line-height">user@example.com</p>
             </div>
           )}
           <button
-            className="p-1.5 lg:p-2 rounded-lg hover:bg-[#1C1C1E] transition-colors"
+            className="p-1.5 lg:p-2 rounded-lg hover:bg-gray-100 transition-colors"
             title="Settings"
           >
-            <Settings size={14} className="lg:w-4 lg:h-4 text-[#8E8E93]" />
+            <Settings size={14} className="lg:w-4 lg:h-4 text-gray-500" />
           </button>
         </div>
       </div>

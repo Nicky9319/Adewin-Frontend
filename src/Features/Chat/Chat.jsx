@@ -262,7 +262,7 @@ const Chat = () => {
   const currentMessages = messages[selectedChatId] || [];
 
   return (
-    <div className="flex h-screen bg-black overflow-hidden">
+    <div className="flex h-screen bg-white overflow-hidden">
       {/* Sidebar Overlay for mobile */}
       {isSidebarOpen && (
         <div 
@@ -289,24 +289,24 @@ const Chat = () => {
       {/* Main Content */}
       <div className={`flex-1 flex flex-col min-w-0 relative transition-all duration-300 ${isSidebarOpen ? 'lg:pl-[320px]' : 'lg:pl-0'}`}>
         {/* Header */}
-        <div className="bg-black border-b border-[#1C1C1E] px-3 lg:px-6 py-3 lg:py-4 flex-shrink-0">
+        <div className="bg-white border-b border-gray-200 px-3 lg:px-6 py-3 lg:py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {/* Sidebar Toggle Button (visible on all screens) */}
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 lg:p-3 rounded-lg bg-[#1C1C1E] hover:bg-[#2D2D2F] transition-colors border border-[#2D2D2F]"
+                className="p-2 lg:p-3 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
                 title={isSidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
               >
                 {isSidebarOpen ? (
-                  <X size={18} className="lg:w-5 lg:h-5 text-[#FFFFFF]" />
+                  <X size={18} className="lg:w-5 lg:h-5 text-black" />
                 ) : (
-                  <Menu size={18} className="lg:w-5 lg:h-5 text-[#FFFFFF]" />
+                  <Menu size={18} className="lg:w-5 lg:h-5 text-black" />
                 )}
               </button>
               
               <div>
-                <h1 className="text-base lg:text-lg font-semibold text-white font-primary heading-line-height">Marvin</h1>
+                <h1 className="text-base lg:text-lg font-semibold text-black font-primary heading-line-height">Marvin</h1>
               </div>
             </div>
           </div>

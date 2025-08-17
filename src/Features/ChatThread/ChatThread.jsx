@@ -68,7 +68,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="flex flex-col h-full bg-black">
+    <div className="flex flex-col h-full bg-white">
       {/* Messages Container */}
       <div className={`flex-1 overflow-y-auto p-3 lg:p-4 space-y-4 lg:space-y-6 min-h-0 transition-all duration-500 ease-in-out ${hasMessages ? 'block opacity-100' : 'hidden opacity-0'}`}>
         {messages.map((message) => (
@@ -85,14 +85,14 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
         {isLoading && (
           <div className="flex justify-start">
             <div className="max-w-3xl flex items-start space-x-3">
-              <div className="w-8 h-8 rounded-full bg-[#1C1C1E] flex items-center justify-center flex-shrink-0">
-                <div className="w-4 h-4 bg-[#007AFF] rounded-full"></div>
+              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
               </div>
-              <div className="bg-black rounded-lg px-4 py-3 border border-[#1C1C1E]">
+              <div className="bg-white rounded-lg px-4 py-3 border border-gray-200">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-[#007AFF] rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-[#007AFF] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-[#007AFF] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       {!hasMessages && (
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center max-w-2xl w-full">
-            <h3 className="text-5xl lg:text-6xl font-bold text-[#FFFFFF] mb-1 font-primary heading-line-height">
+            <h3 className="text-5xl lg:text-6xl font-bold text-black mb-1 font-primary heading-line-height">
               Hello, Marvin
             </h3>
           </div>
@@ -114,7 +114,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
       )}
 
       {/* Input Container - Single component that adapts */}
-      <div className={`${hasMessages ? 'p-3 lg:p-4' : 'flex-1 flex items-center justify-center px-4'} bg-black flex-shrink-0 transition-all duration-700 ease-in-out`}>
+      <div className={`${hasMessages ? 'p-3 lg:p-4' : 'flex-1 flex items-center justify-center px-4'} bg-white flex-shrink-0 transition-all duration-700 ease-in-out`}>
         <form onSubmit={handleSubmit} className={`${hasMessages ? 'max-w-4xl mx-auto' : 'w-full max-w-2xl'} transition-all duration-700 ease-in-out`}>
           <div className="relative">
             <textarea
@@ -122,7 +122,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Message Marvin... (Press Enter to send, Shift+Enter for new line)"
-              className={`w-full ${hasMessages ? 'p-3' : 'p-4'} pr-28 lg:pr-32 rounded-2xl bg-[#1C1C1E] border border-[#2D2D2F] text-[#E5E5E7] placeholder-[#8E8E93] resize-none focus:outline-none focus:border-[#FFFFFF] focus:ring-1 focus:ring-[#FFFFFF] focus:ring-opacity-20 transition-all duration-700 ease-in-out font-secondary body-line-height text-sm lg:text-base shadow-lg`}
+              className={`w-full ${hasMessages ? 'p-3' : 'p-4'} pr-28 lg:pr-32 rounded-2xl bg-gray-50 border border-gray-300 text-black placeholder-gray-500 resize-none focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-20 transition-all duration-700 ease-in-out font-secondary body-line-height text-sm lg:text-base shadow-lg`}
               rows="1"
               style={{ minHeight: hasMessages ? '50px' : '60px', maxHeight: '120px' }}
               onKeyDown={(e) => {
@@ -139,10 +139,10 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               <button
                 type="button"
                 onClick={handleImageUpload}
-                className="p-1.5 rounded-lg hover:bg-[#2D2D2F] transition-all duration-300 ease-in-out"
+                className="p-1.5 rounded-lg hover:bg-gray-200 transition-all duration-300 ease-in-out"
                 title="Upload Image"
               >
-                <Image size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+                <Image size={16} className="text-gray-500 hover:text-black" />
               </button>
               
               {/* Voice Recording Button */}
@@ -151,15 +151,15 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
                 onClick={handleVoiceRecording}
                 className={`p-1.5 rounded-lg transition-all duration-300 ease-in-out ${
                   isRecording 
-                    ? 'bg-[#1C1C1E]' 
-                    : 'hover:bg-[#2D2D2F]'
+                    ? 'bg-gray-100' 
+                    : 'hover:bg-gray-200'
                 }`}
                 title={isRecording ? "Stop Recording" : "Start Voice Recording"}
               >
                 {isRecording ? (
-                  <MicOff size={16} className="text-[#FFFFFF]" />
+                  <MicOff size={16} className="text-black" />
                 ) : (
-                  <Mic size={16} className="text-[#8E8E93] hover:text-[#FFFFFF]" />
+                  <Mic size={16} className="text-gray-500 hover:text-black" />
                 )}
               </button>
               
@@ -167,9 +167,9 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isLoading}
-                className="p-1.5 rounded-lg bg-[#1C1C1E] hover:bg-[#2D2D2F] disabled:bg-[#2D2D2F] disabled:cursor-not-allowed transition-all duration-300 ease-in-out"
+                className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:bg-gray-200 disabled:cursor-not-allowed transition-all duration-300 ease-in-out"
               >
-                <Send size={16} className="text-[#FFFFFF]" />
+                <Send size={16} className="text-black" />
               </button>
             </div>
           </div>
@@ -178,8 +178,8 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
           {!hasMessages && (
             <div className="flex items-center justify-end mt-2 transition-all duration-700 ease-in-out">
               <div className="flex items-center space-x-2">
-                <div className="w-1.5 h-1.5 bg-[#FFFFFF] rounded-full"></div>
-                <span className="text-xs text-[#8E8E93] font-secondary">Marvin is ready</span>
+                <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
+                <span className="text-xs text-gray-500 font-secondary">Marvin is ready</span>
               </div>
             </div>
           )}

@@ -14,8 +14,8 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
         if (line.startsWith('```') && line.endsWith('```')) {
           const code = line.slice(3, -3);
           return (
-            <pre key={index} className="bg-[#1C1C1E] p-3 rounded-lg my-2 overflow-x-auto border border-[#2D2D2F]">
-              <code className="text-[#00D09C] text-sm">{code}</code>
+            <pre key={index} className="bg-gray-100 p-3 rounded-lg my-2 overflow-x-auto border border-gray-200">
+              <code className="text-green-600 text-sm">{code}</code>
             </pre>
           );
         }
@@ -29,7 +29,7 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
                 partIndex % 2 === 0 ? (
                   <span key={partIndex}>{part}</span>
                 ) : (
-                  <code key={partIndex} className="bg-[#1C1C1E] px-1 rounded text-[#00D09C] text-sm border border-[#2D2D2F]">
+                  <code key={partIndex} className="bg-gray-100 px-1 rounded text-green-600 text-sm border border-gray-200">
                     {part}
                   </code>
                 )
@@ -58,13 +58,13 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
         {/* Avatar */}
         <div
           className={`w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isUser ? 'bg-[#1C1C1E]' : 'bg-[#1C1C1E]'
+            isUser ? 'bg-gray-100' : 'bg-gray-100'
           }`}
         >
           {isUser ? (
-            <User size={14} className="lg:w-4 lg:h-4 text-[#FFFFFF]" />
+            <User size={14} className="lg:w-4 lg:h-4 text-black" />
           ) : (
-            <div className="w-4 h-4 bg-[#007AFF] rounded-full"></div>
+            <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
           )}
         </div>
 
@@ -72,13 +72,13 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
         <div
           className={`rounded-lg px-3 py-2 lg:px-4 lg:py-3 ${
             isUser
-              ? 'bg-[#1C1C1E] text-[#FFFFFF]'
-              : 'bg-black text-[#E5E5E7] border border-[#1C1C1E]'
+              ? 'bg-gray-100 text-black'
+              : 'bg-white text-black border border-gray-200'
           }`}
         >
           <div className="prose prose-invert max-w-none font-secondary body-line-height">
             {message.content === 'Marvin' ? (
-              <span className="text-[#FFFFFF] font-medium font-primary">{message.content}</span>
+              <span className="text-black font-medium font-primary">{message.content}</span>
             ) : (
               formatContent(message.content)
             )}
@@ -86,24 +86,24 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
           
           {/* Message Actions */}
           {!isUser && (
-            <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-[#1C1C1E]">
+            <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-gray-200">
               <button
                 onClick={() => onCopy(message.content, message.id)}
-                className="p-1 rounded hover:bg-[#1C1C1E] transition-colors"
+                className="p-1 rounded hover:bg-gray-100 transition-colors"
                 title="Copy message"
               >
                 {isCopied ? (
-                  <Check size={14} className="text-[#FFFFFF]" />
+                  <Check size={14} className="text-black" />
                 ) : (
-                  <Copy size={14} className="text-[#8E8E93]" />
+                  <Copy size={14} className="text-gray-500" />
                 )}
               </button>
               <button
                 onClick={() => onRegenerate(message.id)}
-                className="p-1 rounded hover:bg-[#1C1C1E] transition-colors"
+                className="p-1 rounded hover:bg-gray-100 transition-colors"
                 title="Regenerate response"
               >
-                <RotateCcw size={14} className="text-[#8E8E93]" />
+                <RotateCcw size={14} className="text-gray-500" />
               </button>
             </div>
           )}
