@@ -104,7 +104,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
 
       {/* Welcome Screen (when no messages) */}
       {!hasMessages && (
-        <div className="flex-1 flex items-end justify-center px-4 pb-12">
+        <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center max-w-2xl w-full">
             <h3 className="text-5xl lg:text-6xl font-bold text-[#FFFFFF] mb-1 font-primary heading-line-height">
               Hello, Marvin
