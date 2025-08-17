@@ -120,31 +120,24 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
           <div className="mb-4 flex flex-wrap gap-2 justify-center">
             <button
               type="button"
-              onClick={() => setInputValue("Research a topic")}
+              onClick={() => setInputValue("Help me sales")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Research a topic
+              Help me sales
             </button>
             <button
               type="button"
-              onClick={() => setInputValue("Help me write")}
+              onClick={() => setInputValue("Help me views")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Help me write
+              Help me views
             </button>
             <button
               type="button"
-              onClick={() => setInputValue("Give me study tips")}
+              onClick={() => setInputValue("Help me leads")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Give me study tips
-            </button>
-            <button
-              type="button"
-              onClick={() => setInputValue("Inspire me")}
-              className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
-            >
-              Inspire me
+              Help me leads
             </button>
           </div>
         )}

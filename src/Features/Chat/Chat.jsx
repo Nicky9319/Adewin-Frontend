@@ -291,8 +291,8 @@ const Chat = () => {
         {/* Header */}
         <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              {/* Sidebar Toggle Button (visible on all screens) */}
+            {/* Left side - Sidebar Toggle Button */}
+            <div className="flex items-center">
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors border border-gray-300"
@@ -304,13 +304,14 @@ const Chat = () => {
                   <Menu size={20} className="text-black" />
                 )}
               </button>
-              
-              <div>
-                <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
-              </div>
             </div>
             
-            {/* Account/Profile Section */}
+            {/* Center - Adewin Title */}
+            <div className="flex-1 flex justify-center">
+              <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
+            </div>
+            
+            {/* Right side - Account/Profile Section */}
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <span className="text-sm font-medium text-gray-600">U</span>
