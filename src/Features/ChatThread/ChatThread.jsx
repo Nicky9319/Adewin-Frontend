@@ -107,21 +107,55 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center max-w-2xl w-full">
             <h3 className="text-5xl lg:text-6xl font-bold text-black mb-1 font-primary heading-line-height">
-              Hello, Marvin
+              Hello, Adewin
             </h3>
           </div>
         </div>
       )}
 
       {/* Input Container - Single component that adapts */}
-      <div className={`${hasMessages ? 'p-3 lg:p-4' : 'flex-1 flex items-center justify-center px-4'} bg-white flex-shrink-0 transition-all duration-700 ease-in-out`}>
-        <form onSubmit={handleSubmit} className={`${hasMessages ? 'max-w-4xl mx-auto' : 'w-full max-w-2xl'} transition-all duration-700 ease-in-out`}>
+      <div className={`${hasMessages ? 'p-3 lg:p-4' : 'p-3 lg:p-4'} bg-white flex-shrink-0 transition-all duration-700 ease-in-out`}>
+        {/* Suggested Actions - only show when no messages */}
+        {!hasMessages && (
+          <div className="mb-4 flex flex-wrap gap-2 justify-center">
+            <button
+              type="button"
+              onClick={() => setInputValue("Research a topic")}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Research a topic
+            </button>
+            <button
+              type="button"
+              onClick={() => setInputValue("Help me write")}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Help me write
+            </button>
+            <button
+              type="button"
+              onClick={() => setInputValue("Give me study tips")}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Give me study tips
+            </button>
+            <button
+              type="button"
+              onClick={() => setInputValue("Inspire me")}
+              className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
+            >
+              Inspire me
+            </button>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto transition-all duration-700 ease-in-out">
           <div className="relative">
             <textarea
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Message Marvin... (Press Enter to send, Shift+Enter for new line)"
+              placeholder="Ask Adewin..."
               className={`w-full ${hasMessages ? 'p-3' : 'p-4'} pr-28 lg:pr-32 rounded-2xl bg-gray-50 border border-gray-300 text-black placeholder-gray-500 resize-none focus:outline-none focus:border-black focus:ring-1 focus:ring-black focus:ring-opacity-20 transition-all duration-700 ease-in-out font-secondary body-line-height text-sm lg:text-base shadow-lg`}
               rows="1"
               style={{ minHeight: hasMessages ? '50px' : '60px', maxHeight: '120px' }}
@@ -179,7 +213,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false }) => {
             <div className="flex items-center justify-end mt-2 transition-all duration-700 ease-in-out">
               <div className="flex items-center space-x-2">
                 <div className="w-1.5 h-1.5 bg-black rounded-full"></div>
-                <span className="text-xs text-gray-500 font-secondary">Marvin is ready</span>
+                <span className="text-xs text-gray-500 font-secondary">Adewin is ready</span>
               </div>
             </div>
           )}

@@ -306,7 +306,14 @@ const Chat = () => {
               </button>
               
               <div>
-                <h1 className="text-base lg:text-lg font-semibold text-black font-primary heading-line-height">Marvin</h1>
+                <h1 className="text-base lg:text-lg font-semibold text-black font-primary heading-line-height">Adewin</h1>
+              </div>
+            </div>
+            
+            {/* Account/Profile Section */}
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                <span className="text-sm font-medium text-gray-600">U</span>
               </div>
             </div>
           </div>
