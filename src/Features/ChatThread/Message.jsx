@@ -101,6 +101,36 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
                 className="max-w-full h-auto rounded-lg border border-gray-200"
                 style={{ maxHeight: '400px' }}
               />
+              
+              {/* Advertisement Structure */}
+              <div className="mt-4 border border-gray-200 rounded-lg overflow-hidden">
+                {/* Ad Text and Call to Action Section */}
+                <div className="p-4 border-b border-gray-200">
+                  <h3 className="text-lg font-bold text-black mb-2">Freedom from Skin Worries</h3>
+                  <p className="text-sm text-gray-700 mb-3">Celebrate Independence Day with glowing, worry-free skin</p>
+                  <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-black hover:bg-gray-50 transition-colors">
+                  Book Appointment 
+                  </button>
+                </div>
+                
+                {/* Campaign Details Section */}
+                <div className="p-4 bg-gray-50">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Budget</p>
+                      <p className="text-sm font-medium text-black">₹3,500</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Recommended by</p>
+                      <p className="text-sm font-medium text-black">Adewin</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Platforms</p>
+                      <p className="text-sm font-medium text-black">7 days</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
           
