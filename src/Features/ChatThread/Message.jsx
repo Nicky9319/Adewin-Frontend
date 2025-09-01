@@ -1,9 +1,17 @@
 import React from 'react';
-import { User, Copy, Check, RotateCcw } from 'lucide-react';
+import { User, Copy, Check, RotateCcw, Play } from 'lucide-react';
 
-const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
+const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCampaign, onLaunchCampaign }) => {
   const isUser = message.role === 'user';
   const isCopied = copiedMessageId === message.id;
+  const [isCampaignRunning, setIsCampaignRunning] = React.useState(false);
+
+  const handleLaunchCampaign = () => {
+    setIsCampaignRunning(true);
+    if (onLaunchCampaign) {
+      onLaunchCampaign();
+    }
+  };
 
   const formatContent = (content) => {
     // Simple markdown-like formatting
@@ -117,6 +125,25 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
               >
                 <RotateCcw size={14} className="text-gray-500" />
               </button>
+              
+              {/* Launch Campaign Button */}
+              {showLaunchCampaign && onLaunchCampaign && !isCampaignRunning && (
+                <button
+                  onClick={handleLaunchCampaign}
+                  className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out text-white text-sm font-medium"
+                  title="Launch Campaign"
+                >
+                  Launch Campaign
+                </button>
+              )}
+              
+              {/* Running Indicator */}
+              {isCampaignRunning && (
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-green-600 font-medium">Running</span>
+                </div>
+              )}
             </div>
           )}
         </div>

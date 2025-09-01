@@ -77,13 +77,15 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
     <div className="flex flex-col h-full bg-white">
       {/* Messages Container */}
       <div className={`flex-1 overflow-y-auto p-4 space-y-4 min-h-0 transition-all duration-500 ease-in-out ${hasMessages ? 'block opacity-100' : 'hidden opacity-0'}`}>
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <Message
             key={message.id}
             message={message}
             onCopy={copyToClipboard}
             onRegenerate={handleRegenerate}
             copiedMessageId={copiedMessageId}
+            showLaunchCampaign={message.image && index === messages.length - 1} // Show for the last message with image
+            onLaunchCampaign={handleLaunchCampaign}
           />
         ))}
 
@@ -168,18 +170,6 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
             
             {/* Action Buttons */}
             <div className="absolute right-2 bottom-2 flex items-center space-x-1">
-              {/* Launch Campaign Button - only show when in temporary chat */}
-              {isTemporaryChat && (
-                <button
-                  type="button"
-                  onClick={handleLaunchCampaign}
-                  className="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out text-white"
-                  title="Launch Campaign"
-                >
-                  <Play size={16} />
-                </button>
-              )}
-              
               {/* Image Upload Button */}
               <button
                 type="button"
