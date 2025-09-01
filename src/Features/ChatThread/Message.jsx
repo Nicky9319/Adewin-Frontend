@@ -84,6 +84,18 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId }) => {
             )}
           </div>
           
+          {/* Display image if present */}
+          {message.image && (
+            <div className="mt-3">
+              <img 
+                src={message.image} 
+                alt="Shared image" 
+                className="max-w-full h-auto rounded-lg border border-gray-200"
+                style={{ maxHeight: '400px' }}
+              />
+            </div>
+          )}
+          
           {/* Message Actions */}
           {!isUser && (
             <div className="flex items-center space-x-2 mt-3 pt-3 border-t border-gray-200">

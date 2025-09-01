@@ -158,6 +158,7 @@ const Chat = () => {
   };
 
   const handleSendMessage = async (content) => {
+    console.log('🚀 handleSendMessage called with content:', content);
     let chatId = selectedChatId;
     
     // If no chat is selected, use a temporary chat for communication
@@ -179,6 +180,21 @@ const Chat = () => {
       timestamp: new Date().toISOString()
     };
 
+    // Debug logging
+    console.log('=== DEBUG INFO ===');
+    console.log('Current messages in chat:', currentMessages);
+    console.log('Current messages length:', currentMessages.length);
+    console.log('User message content:', content);
+    console.log('Chat ID:', chatId);
+
+    // Check if this is the first or second message BEFORE adding the user message
+    const isFirstMessage = currentMessages.length === 0;
+    const isSecondMessage = currentMessages.length === 2; // After first user message + assistant response
+    
+    console.log('Is first message:', isFirstMessage);
+    console.log('Is second message:', isSecondMessage);
+    console.log('=== END DEBUG ===');
+
     // Add user message
     setMessages(prev => ({
       ...prev,
@@ -199,10 +215,8 @@ const Chat = () => {
     try {
       let apiResponse;
       
-      // Check if this is the first message in the conversation
-      const isFirstMessage = currentMessages.length === 0;
-      
       if (isFirstMessage) {
+        console.log('🟢 Executing FIRST MESSAGE logic');
         // First message - use chat_start API
         apiResponse = await simulateChatStartAPI(content);
         
@@ -234,7 +248,39 @@ const Chat = () => {
           ));
         }
         
+      } else if (isSecondMessage) {
+        console.log('🟡 Executing SECOND MESSAGE logic');
+        // Second message - wait 15 seconds then show image
+        console.log('Second message detected, waiting 15 seconds...');
+        
+        // Wait for 15 seconds
+        await new Promise(resolve => setTimeout(resolve, 15000));
+        
+        // Create assistant response with image
+        const assistantMessage = {
+          id: `${chatId}-${Date.now() + 1}`,
+          role: 'assistant',
+          content: '',
+          image: '/IMG_1824.JPG',
+          timestamp: new Date().toISOString()
+        };
+        
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [...(prev[chatId] || []), assistantMessage]
+        }));
+        
+        // Only update last message if this is a real chat (not temp)
+        if (chatId !== 'temp-chat') {
+          setChats(prev => prev.map(chat => 
+            chat.id === chatId 
+              ? { ...chat, lastMessage: 'Image shared' }
+              : chat
+          ));
+        }
+        
       } else {
+        console.log('🔴 Executing SUBSEQUENT MESSAGE logic');
         // Subsequent messages - use chat API
         const sessionId = sessionIds[chatId];
         const conversationHistory = [...currentMessages, userMessage].map(msg => msg.content);
