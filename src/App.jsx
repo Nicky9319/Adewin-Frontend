@@ -1,6 +1,8 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import Chat from "./Features/Chat";
+import Onboarding from "./Features/Onboarding";
+import { OnboardingProvider, useOnboarding } from "./OnboardingContext.jsx";
 
 import {
   BrowserRouter as Router,
@@ -15,10 +17,12 @@ const baseUrl = import.meta.env.BASE_URL || "/";
 function App() {
   // Wrap the routing in a separate component so useLocation can run inside the Router.
   return (
-    <Router basename={baseUrl}>
-      <ScrollToTop />
-      <AppInner />
-    </Router>
+    <OnboardingProvider>
+      <Router basename={baseUrl}>
+        <ScrollToTop />
+        <AppInner />
+      </Router>
+    </OnboardingProvider>
   );
 }
 
@@ -33,11 +37,20 @@ function ScrollToTop() {
 }
 
 function AppInner() {
+  const { isOnboardingCompleted } = useOnboarding();
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-black">
       <Routes>
-        <Route path="/" element={<Navigate to="/chat" replace />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/" element={
+          isOnboardingCompleted ? <Navigate to="/chat" replace /> : <Navigate to="/onboarding" replace />
+        } />
+        <Route path="/chat" element={
+          isOnboardingCompleted ? <Chat /> : <Navigate to="/onboarding" replace />
+        } />
+        <Route path="/onboarding" element={
+          isOnboardingCompleted ? <Navigate to="/chat" replace /> : <Onboarding />
+        } />
 
         {/* Add more routes as needed */}
       </Routes>

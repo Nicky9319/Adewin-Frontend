@@ -3,8 +3,10 @@ import ChatListPane from '../ChatListPane';
 import ChatThread from '../ChatThread';
 import chatStartData from '../ChatThread/chat_start.json';
 import chatApiData from '../ChatThread/chat_api.json';
+import { useOnboarding } from '../../OnboardingContext.jsx';
 
 const Chat = () => {
+  const { resetOnboarding, onboardingData } = useOnboarding();
   const [chats, setChats] = useState([]);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [messages, setMessages] = useState({});
@@ -355,13 +357,25 @@ const Chat = () => {
         {/* Header */}
         <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
-            {/* Center - Adewin Title */}
+            {/* Center - Title with Company Name */}
             <div className="flex justify-center w-full">
-              <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
+              <div className="text-center">
+                <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
+                {onboardingData?.companyName && (
+                  <p className="text-sm text-gray-500 mt-1">{onboardingData.companyName}</p>
+                )}
+              </div>
             </div>
             
             {/* Right side - Account/Profile Section */}
-            <div className="flex items-center">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={resetOnboarding}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md transition-colors"
+                title="Reset onboarding (for testing)"
+              >
+                Reset Onboarding
+              </button>
               <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <span className="text-sm font-medium text-gray-600">U</span>
               </div>
