@@ -131,21 +131,21 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
               onClick={() => setInputValue("Help me sales")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Help me sales
+              Help me SALES
             </button>
             <button
               type="button"
               onClick={() => setInputValue("Help me views")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Help me views
+              Help me VIEWS
             </button>
             <button
               type="button"
               onClick={() => setInputValue("Help me leads")}
               className="px-4 py-2 rounded-lg border border-gray-300 text-black hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Help me leads
+              Help me LEADS
             </button>
           </div>
         )}
