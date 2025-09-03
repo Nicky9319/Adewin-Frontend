@@ -36,17 +36,17 @@ const Step3 = ({ formData, onDataChange }) => {
       <div className="form-group">
         <label htmlFor="whatsappNumber">WhatsApp Number</label>
         <div className="input-with-prefix">
-          <span className="input-prefix">+1</span>
+          <span className="input-prefix">+91</span>
           <input
             type="tel"
             id="whatsappNumber"
-            placeholder="(555) 123-4567"
+            placeholder="98765 43210"
             value={formData.whatsappNumber}
             onChange={(e) => handleInputChange('whatsappNumber', e.target.value)}
             className="form-input"
           />
         </div>
-        <small>Enter your business WhatsApp number for customer support</small>
+        <small>Enter your business WhatsApp number for customer support (e.g., 98765 43210)</small>
       </div>
 
       <div className="form-group">

@@ -20,9 +20,9 @@ const Onboarding = () => {
     // Step 2
     logo: null,
     brandColors: {
-      primary: '#3B82F6',
-      secondary: '#10B981',
-      accent: '#F59E0B'
+      primary: '#FFFFFF',
+      secondary: '#EC4899',
+      accent: '#FF0000'
     },
     tone: '',
     

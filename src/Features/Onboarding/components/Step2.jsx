@@ -15,6 +15,16 @@ const Step2 = ({ formData, onDataChange }) => {
     });
   };
 
+  const resetToDefaultColors = () => {
+    onDataChange({
+      brandColors: {
+        primary: '#FFFFFF',
+        secondary: '#EC4899',
+        accent: '#FF0000'
+      }
+    });
+  };
+
   const handleLogoUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -82,37 +92,83 @@ const Step2 = ({ formData, onDataChange }) => {
         <label>Brand Colors</label>
         <div className="color-inputs">
           <div className="color-input">
-            <label htmlFor="primaryColor">Primary</label>
+            <label htmlFor="primaryColor">Primary (White)</label>
+            <div className="color-display" onClick={() => document.getElementById('primaryColor').click()}>
+              <div 
+                className="color-preview white-preview"
+                style={{ backgroundColor: formData.brandColors.primary, border: '1px solid #E5E7EB' }}
+              ></div>
+              <span className={`color-name ${formData.brandColors.primary !== '#FFFFFF' ? 'custom' : ''}`}>
+                {formData.brandColors.primary === '#FFFFFF' ? 'White' : 'Custom'}
+              </span>
+            </div>
             <input
               type="color"
               id="primaryColor"
               value={formData.brandColors.primary}
               onChange={(e) => handleColorChange('primary', e.target.value)}
               className="color-picker"
+              style={{ display: 'none' }}
             />
           </div>
           <div className="color-input">
-            <label htmlFor="secondaryColor">Secondary</label>
+            <label htmlFor="secondaryColor">Secondary (Pink)</label>
+            <div className="color-display" onClick={() => document.getElementById('secondaryColor').click()}>
+              <div 
+                className="color-preview pink-preview"
+                style={{ backgroundColor: formData.brandColors.secondary }}
+              ></div>
+              <span className={`color-name ${formData.brandColors.secondary !== '#EC4899' ? 'custom' : ''}`}>
+                {formData.brandColors.secondary === '#EC4899' ? 'Pink' : 'Custom'}
+              </span>
+            </div>
             <input
               type="color"
               id="secondaryColor"
               value={formData.brandColors.secondary}
               onChange={(e) => handleColorChange('secondary', e.target.value)}
               className="color-picker"
+              style={{ display: 'none' }}
             />
           </div>
           <div className="color-input">
-            <label htmlFor="accentColor">Accent</label>
+            <label htmlFor="accentColor">Accent (Rainbow)</label>
+            <div className="color-display" onClick={() => document.getElementById('accentColor').click()}>
+              <div className="rainbow-preview">
+                <div className="rainbow-stripes">
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#FF0000' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#FF7F00' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#FFFF00' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#00FF00' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#0000FF' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#4B0082' }}></div>
+                  <div className="rainbow-stripe" style={{ backgroundColor: '#9400D3' }}></div>
+                </div>
+              </div>
+              <span className={`color-name ${formData.brandColors.accent !== '#FF0000' ? 'custom' : ''}`}>
+                {formData.brandColors.accent === '#FF0000' ? 'Rainbow' : 'Custom'}
+              </span>
+            </div>
             <input
               type="color"
               id="accentColor"
               value={formData.brandColors.accent}
               onChange={(e) => handleColorChange('accent', e.target.value)}
               className="color-picker"
+              style={{ display: 'none' }}
             />
           </div>
         </div>
-        <small>Choose your brand color palette</small>
+        <div className="color-reset-container">
+          <button 
+            type="button" 
+            onClick={resetToDefaultColors}
+            className="color-reset-btn"
+          >
+            Reset to Default Colors
+          </button>
+        </div>
+        <small>Your brand colors are set to White, Pink, and Rainbow. Click on any color to customize further.</small>
       </div>
 
       <div className="form-group">
