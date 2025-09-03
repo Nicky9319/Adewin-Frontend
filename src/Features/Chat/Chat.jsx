@@ -219,7 +219,7 @@ const Chat = () => {
       
       if (isFirstMessage) {
         console.log('🟢 Executing FIRST MESSAGE logic');
-        // First message - use chat_start API
+        // First message - use chat_start API and show image
         apiResponse = await simulateChatStartAPI(content);
         
         // Store session ID for this chat
@@ -228,34 +228,8 @@ const Chat = () => {
           [chatId]: apiResponse.session_id
         }));
         
-        // Create assistant response from chat_start data
-        const assistantMessage = {
-          id: `${chatId}-${Date.now() + 1}`,
-          role: 'assistant',
-          content: apiResponse.questions.join('\n\n'),
-          timestamp: new Date().toISOString()
-        };
-        
-        setMessages(prev => ({
-          ...prev,
-          [chatId]: [...(prev[chatId] || []), assistantMessage]
-        }));
-        
-        // Only update last message if this is a real chat (not temp)
-        if (chatId !== 'temp-chat') {
-          setChats(prev => prev.map(chat => 
-            chat.id === chatId 
-              ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
-              : chat
-          ));
-        }
-        
-      } else if (isSecondMessage) {
-        console.log('🟡 Executing SECOND MESSAGE logic');
-        // Second message - wait 15 seconds then show image
-        console.log('Second message detected, waiting 15 seconds...');
-        
-        // Wait for 15 seconds
+        // Wait for 15 seconds then show image
+        console.log('First message detected, waiting 15 seconds...');
         await new Promise(resolve => setTimeout(resolve, 15000));
         
         // Create assistant response with image
@@ -276,7 +250,37 @@ const Chat = () => {
         if (chatId !== 'temp-chat') {
           setChats(prev => prev.map(chat => 
             chat.id === chatId 
-              ? { ...chat, lastMessage: 'Image shared' }
+              ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
+              : chat
+          ));
+        }
+        
+      } else if (isSecondMessage) {
+        console.log('🟡 Executing SECOND MESSAGE logic');
+        // Second message - use chat API for normal conversation
+        const sessionId = sessionIds[chatId];
+        const conversationHistory = [...currentMessages, userMessage].map(msg => msg.content);
+        
+        apiResponse = await simulateChatAPI(content, sessionId, conversationHistory);
+        
+        // Create assistant response from chat_api data
+        const assistantMessage = {
+          id: `${chatId}-${Date.now() + 1}`,
+          role: 'assistant',
+          content: apiResponse.response,
+          timestamp: new Date().toISOString()
+        };
+        
+        setMessages(prev => ({
+          ...prev,
+          [chatId]: [...(prev[chatId] || []), assistantMessage]
+        }));
+        
+        // Only update last message if this is a real chat (not temp)
+        if (chatId !== 'temp-chat') {
+          setChats(prev => prev.map(chat => 
+            chat.id === chatId 
+              ? { ...chat, lastMessage: assistantMessage.content.substring(0, 50) + '...' }
               : chat
           ));
         }
@@ -361,9 +365,9 @@ const Chat = () => {
             <div className="flex justify-center w-full">
               <div className="text-center">
                 <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
-                {onboardingData?.companyName && (
+                {/* {onboardingData?.companyName && (
                   <p className="text-sm text-gray-500 mt-1">{onboardingData.companyName}</p>
-                )}
+                )} */}
               </div>
             </div>
             

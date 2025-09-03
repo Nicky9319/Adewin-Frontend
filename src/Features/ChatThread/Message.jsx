@@ -65,14 +65,18 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
       >
         {/* Avatar */}
         <div
-          className={`w-6 h-6 lg:w-8 lg:h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isUser ? 'bg-gray-100' : 'bg-gray-100'
+          className={`w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center flex-shrink-0 ${
+            isUser ? 'bg-gray-100 rounded-full' : ''
           }`}
         >
           {isUser ? (
             <User size={14} className="lg:w-4 lg:h-4 text-black" />
           ) : (
-            <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+            <img 
+              src="/src/Features/ChatListPane/logo.PNG" 
+              alt="Adewin Logo" 
+              className="w-6 h-6 lg:w-8 lg:h-8 object-cover"
+            />
           )}
         </div>
 
