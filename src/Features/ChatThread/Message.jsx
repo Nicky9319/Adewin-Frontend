@@ -1,16 +1,44 @@
 import React from 'react';
-import { User, Copy, Check, RotateCcw, Play } from 'lucide-react';
+import { User, Copy, Check, RotateCcw, Play, Edit3, X } from 'lucide-react';
 
 const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCampaign, onLaunchCampaign }) => {
   const isUser = message.role === 'user';
   const isCopied = copiedMessageId === message.id;
   const [isCampaignRunning, setIsCampaignRunning] = React.useState(false);
+  
+  // Editable fields state
+  const [editableFields, setEditableFields] = React.useState({
+    heading: 'Freedom from Skin Worries',
+    primaryText: 'Celebrate Independence Day with glowing, worry-free skin',
+    budget: '₹3,500',
+    days: '7 days'
+  });
+  const [isEditing, setIsEditing] = React.useState(false);
 
   const handleLaunchCampaign = () => {
     setIsCampaignRunning(true);
     if (onLaunchCampaign) {
       onLaunchCampaign();
     }
+  };
+
+  const handleToggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSaveAll = () => {
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    // Reset to original values if needed
+    setEditableFields({
+      heading: 'Freedom from Skin Worries',
+      primaryText: 'Celebrate Independence Day with glowing, worry-free skin',
+      budget: '₹3,500',
+      days: '7 days'
+    });
   };
 
   const formatContent = (content) => {
@@ -108,12 +136,71 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
               
               {/* Advertisement Structure */}
               <div className="mt-4 border border-gray-200 rounded-lg overflow-hidden">
+                {/* Edit Button */}
+                <div className="p-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">Campaign Details</span>
+                  <div className="flex items-center gap-2">
+                    {isEditing ? (
+                      <>
+                        <button
+                          onClick={handleSaveAll}
+                          className="p-2 text-black hover:text-gray-700 rounded-full transition-colors"
+                          title="Save all changes"
+                        >
+                          <Check size={16} />
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          className="p-2 text-black hover:text-gray-700 rounded-full transition-colors"
+                          title="Cancel changes"
+                        >
+                          <X size={16} />
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={handleToggleEdit}
+                        className="p-2 text-black hover:text-gray-700 rounded-full transition-colors"
+                        title="Edit campaign details"
+                      >
+                        <Edit3 size={16} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                
                 {/* Ad Text and Call to Action Section */}
                 <div className="p-4 border-b border-gray-200">
-                  <h3 className="text-lg font-bold text-black mb-2">Freedom from Skin Worries</h3>
-                  <p className="text-sm text-gray-700 mb-3">Celebrate Independence Day with glowing, worry-free skin</p>
+                  <div className="mb-2">
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editableFields.heading}
+                        onChange={(e) => setEditableFields(prev => ({ ...prev, heading: e.target.value }))}
+                        className="text-lg font-bold text-black bg-transparent border-b border-blue-500 focus:outline-none w-full"
+                        placeholder="Enter campaign heading"
+                      />
+                    ) : (
+                      <h3 className="text-lg font-bold text-black">{editableFields.heading}</h3>
+                    )}
+                  </div>
+                  
+                  <div className="mb-3">
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editableFields.primaryText}
+                        onChange={(e) => setEditableFields(prev => ({ ...prev, primaryText: e.target.value }))}
+                        className="text-sm text-gray-700 bg-transparent border-b border-blue-500 focus:outline-none w-full"
+                        placeholder="Enter campaign description"
+                      />
+                    ) : (
+                      <p className="text-sm text-gray-700">{editableFields.primaryText}</p>
+                    )}
+                  </div>
+                  
                   <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-black hover:bg-gray-50 transition-colors">
-                  Book Appointment 
+                    Book Appointment 
                   </button>
                 </div>
                 
@@ -123,11 +210,31 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
                     {/* First Row */}
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Budget</p>
-                      <p className="text-sm font-medium text-black">₹3,500</p>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editableFields.budget}
+                          onChange={(e) => setEditableFields(prev => ({ ...prev, budget: e.target.value }))}
+                          className="text-sm font-medium text-black bg-transparent border-b border-blue-500 focus:outline-none text-center w-20"
+                          placeholder="₹0"
+                        />
+                      ) : (
+                        <p className="text-sm font-medium text-black">{editableFields.budget}</p>
+                      )}
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Days</p>
-                      <p className="text-sm font-medium text-black">7 days</p>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editableFields.days}
+                          onChange={(e) => setEditableFields(prev => ({ ...prev, days: e.target.value }))}
+                          className="text-sm font-medium text-black bg-transparent border-b border-blue-500 focus:outline-none text-center w-20"
+                          placeholder="0 days"
+                        />
+                      ) : (
+                        <p className="text-sm font-medium text-black">{editableFields.days}</p>
+                      )}
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Estimated Reach</p>
