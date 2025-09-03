@@ -119,10 +119,14 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
                 
                 {/* Campaign Details Section */}
                 <div className="p-4 bg-gray-50">
-                  <div className="grid grid-cols-3 gap-4 text-center">
+                  <div className="grid grid-cols-4 gap-4 text-center">
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Budget</p>
                       <p className="text-sm font-medium text-black">₹3,500</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Estimated Reach</p>
+                      <p className="text-sm font-medium text-black">12,000 - 15,000</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Recommended by</p>
@@ -130,7 +134,7 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Platforms</p>
-                      <p className="text-sm font-medium text-black">7 days</p>
+                      <p className="text-sm font-medium text-black">Facebook + Instagram</p>
                     </div>
                   </div>
                 </div>
