@@ -48,6 +48,10 @@ const Onboarding = () => {
           return;
         }
       } else if (currentStep === 2) {
+        if (!formData.logo) {
+          alert('Please upload your company logo before proceeding.');
+          return;
+        }
         if (!formData.tone) {
           alert('Please select a brand tone before proceeding.');
           return;

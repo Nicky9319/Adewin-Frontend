@@ -30,6 +30,11 @@
   font-size: 1rem;
 }
 
+.required-indicator {
+  color: #EF4444;
+  margin-left: 0.25rem;
+}
+
 /* Logo Upload Styles */
 .logo-upload-container {
   position: relative;
@@ -160,21 +165,24 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.rainbow-stripes {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.rainbow-stripe {
-  flex: 1;
   transition: all 0.3s ease;
 }
 
-.rainbow-stripe:hover {
-  transform: scaleX(1.1);
+.rainbow-preview:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes rainbow-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .color-name {
@@ -211,6 +219,38 @@
   border-color: #9CA3AF;
 }
 
+/* Disabled Brand Colors Styles */
+.brand-colors-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.brand-colors-disabled label {
+  color: #9CA3AF;
+}
+
+.disabled-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #F9FAFB;
+  border: 2px dashed #D1D5DB;
+  border-radius: 12px;
+  color: #6B7280;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.disabled-message svg {
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+.disabled-message span {
+  font-weight: 500;
+}
+
 .color-picker {
   width: 60px;
   height: 60px;
@@ -219,6 +259,8 @@
   cursor: pointer;
   background: none;
   transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .color-picker:hover {
@@ -233,6 +275,22 @@
   border: none;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure color picker appears in the right position */
+.color-input {
+  position: relative;
+}
+
+.color-input input[type="color"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
 }
 
 /* Form Select Styles */
@@ -297,6 +355,13 @@
     height: 50px;
   }
   
+  .color-input input[type="color"] {
+    width: 50px;
+    height: 50px;
+  }
+  
+
+  
   .logo-upload-placeholder {
     padding: 1.5rem;
   }
@@ -304,5 +369,15 @@
   .logo-preview img {
     width: 60px;
     height: 60px;
+  }
+  
+  .disabled-message {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .disabled-message svg {
+    width: 20px;
+    height: 20px;
   }
 }
