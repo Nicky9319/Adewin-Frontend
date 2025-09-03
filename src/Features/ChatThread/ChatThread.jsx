@@ -93,8 +93,12 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
         {isLoading && (
           <div className="flex justify-start">
             <div className="max-w-3xl flex items-start space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+              <div className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center flex-shrink-0">
+                <img 
+                  src="/src/Features/ChatListPane/logo.PNG" 
+                  alt="Adewin Logo" 
+                  className="w-6 h-6 lg:w-8 lg:h-8 object-cover"
+                />
               </div>
               <div className="bg-white rounded-lg px-4 py-3 border border-gray-200">
                 <div className="flex space-x-1">
