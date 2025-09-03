@@ -371,7 +371,7 @@ const Chat = () => {
               </div>
             </div>
             
-            {/* Right side - Account/Profile Section */}
+            {/* Right side - Logo Section */}
             <div className="flex items-center gap-3">
               <button
                 onClick={resetOnboarding}
@@ -380,8 +380,12 @@ const Chat = () => {
               >
                 Reset Onboarding
               </button>
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-600">U</span>
+              <div className="w-8 h-8 flex items-center justify-center">
+                <img 
+                  src="/src/Features/ChatListPane/logo.PNG" 
+                  alt="Adewin Logo" 
+                  className="w-8 h-8 object-cover"
+                />
               </div>
             </div>
           </div>
