@@ -359,34 +359,37 @@ const Chat = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 relative transition-all duration-300">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            {/* Center - Title with Company Name */}
-            <div className="flex justify-center w-full">
-              <div className="text-center">
-                <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
-                {/* {onboardingData?.companyName && (
-                  <p className="text-sm text-gray-500 mt-1">{onboardingData.companyName}</p>
-                )} */}
-              </div>
+        <div className="bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex-shrink-0 relative">
+          {/* Left side - Empty space for balance */}
+          <div className="absolute left-4 lg:left-6 top-1/2 transform -translate-y-1/2">
+            <div className="w-20 lg:w-24"></div>
+          </div>
+          
+          {/* Center - Title with Company Name */}
+          <div className="flex justify-center w-full">
+            <div className="text-center">
+              <h1 className="text-lg font-semibold text-black font-primary">Adewin</h1>
+              {/* {onboardingData?.companyName && (
+                <p className="text-sm text-gray-500 mt-1">{onboardingData.companyName}</p>
+              )} */}
             </div>
-            
-            {/* Right side - Logo Section */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={resetOnboarding}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md transition-colors"
-                title="Reset onboarding (for testing)"
-              >
-                Reset Onboarding
-              </button>
-              <div className="w-8 h-8 flex items-center justify-center">
-                <img 
-                  src="/src/Features/ChatListPane/logo.PNG" 
-                  alt="Adewin Logo" 
-                  className="w-8 h-8 object-cover"
-                />
-              </div>
+          </div>
+          
+          {/* Right side - Logo Section */}
+          <div className="absolute right-4 lg:right-6 top-1/2 transform -translate-y-1/2 flex items-center gap-3">
+            <button
+              onClick={resetOnboarding}
+              className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-md transition-colors"
+              title="Reset onboarding (for testing)"
+            >
+              Reset Onboarding
+            </button>
+            <div className="w-8 h-8 flex items-center justify-center">
+              <img 
+                src="/src/Features/ChatListPane/logo.PNG" 
+                alt="Adewin Logo" 
+                className="w-8 h-8 object-cover"
+              />
             </div>
           </div>
         </div>
