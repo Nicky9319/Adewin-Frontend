@@ -99,7 +99,7 @@ const Onboarding = () => {
   return (
     <div className="onboarding-container">
       <div className="onboarding-header">
-        <h1>Welcome to AdWein</h1>
+        <h1>Welcome to Adewin</h1>
         <p>Let's set up your account in just a few steps</p>
       </div>
 
