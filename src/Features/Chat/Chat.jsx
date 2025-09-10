@@ -386,7 +386,7 @@ const Chat = () => {
             </button>
             <div className="w-8 h-8 flex items-center justify-center">
               <img 
-                src="/src/Features/ChatListPane/logo.PNG" 
+                src="/logo.PNG" 
                 alt="Adewin Logo" 
                 className="w-8 h-8 object-cover"
               />

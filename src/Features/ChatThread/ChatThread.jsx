@@ -95,7 +95,7 @@ const ChatThread = ({ messages = [], onSendMessage, isLoading = false, hasChatHi
             <div className="max-w-3xl flex items-start space-x-3">
               <div className="w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center flex-shrink-0">
                 <img 
-                  src="/src/Features/ChatListPane/logo.PNG" 
+                  src="/logo.PNG" 
                   alt="Adewin Logo" 
                   className="w-6 h-6 lg:w-8 lg:h-8 object-cover"
                 />

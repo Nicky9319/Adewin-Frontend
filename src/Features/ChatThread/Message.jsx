@@ -101,7 +101,7 @@ const Message = ({ message, onCopy, onRegenerate, copiedMessageId, showLaunchCam
             <User size={14} className="lg:w-4 lg:h-4 text-black" />
           ) : (
             <img 
-              src="/src/Features/ChatListPane/logo.PNG" 
+              src="/logo.PNG" 
               alt="Adewin Logo" 
               className="w-6 h-6 lg:w-8 lg:h-8 object-cover"
             />
